@@ -2,8 +2,8 @@ module Test.Circuit.Affine where
 
 import Protolude
 
-import qualified Data.Map as Map
-import Test.Tasty.QuickCheck
+import qualified Data.Map              as Map
+import           Test.Tasty.QuickCheck
 
 import Circuit.Affine
 

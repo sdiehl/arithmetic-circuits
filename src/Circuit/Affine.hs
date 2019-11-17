@@ -1,6 +1,4 @@
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE DeriveAnyClass, DeriveGeneric, LambdaCase #-}
 
 -- | Definition of arithmetic circuits that only contain addition,
 -- scalar multiplications and constant gates, along with its direct
@@ -17,9 +15,10 @@ module Circuit.Affine
 
 import Protolude
 
-import Data.Map (Map)
-import qualified Data.Map as Map
-import Text.PrettyPrint.Leijen.Text (Pretty(..), Doc, text, parens, (<+>))
+import           Data.Map                     (Map)
+import qualified Data.Map                     as Map
+import           Text.PrettyPrint.Leijen.Text (Doc, Pretty(..), parens, text,
+                                               (<+>))
 
 -- | Arithmetic circuits without multiplication, i.e. circuits
 -- describe affine transformations.

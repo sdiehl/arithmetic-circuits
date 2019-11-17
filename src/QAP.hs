@@ -1,13 +1,8 @@
 {-# OPTIONS -fno-warn-orphans #-}
 
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE DeriveFoldable #-}
-{-# LANGUAGE DeriveFunctor #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE DeriveAnyClass, DeriveFoldable, DeriveFunctor, DeriveGeneric,
+             FlexibleInstances, RecordWildCards, ScopedTypeVariables,
+             TupleSections #-}
 
 -- | Definitions of quadratic arithmetic programs, along with their
 -- assignment verification functions and the translations from single
@@ -43,21 +38,22 @@ module QAP
 
 import Protolude hiding (quotRem)
 
-import Data.Foldable (foldr1)
-import Data.Map (Map, mapKeys, fromList)
-import qualified Data.Map as Map
+import           Data.Foldable       (foldr1)
+import           Data.Map            (Map, fromList, mapKeys)
+import qualified Data.Map            as Map
 import qualified Data.Map.Merge.Lazy as Merge
 
-import Data.Euclidean (Euclidean(..))
-import Data.Field (Field)
-import Data.Field.Galois (GaloisField, pow)
-import Data.Pairing.BN254 (Fr, getRootOfUnity)
-import Data.Poly (VPoly, monomial)
-import Text.PrettyPrint.Leijen.Text (Pretty(..), text, vcat, (<+>), indent
-                                    , lbracket, rbracket, enclose)
+import Data.Euclidean               (Euclidean(..))
+import Data.Field                   (Field)
+import Data.Field.Galois            (GaloisField, pow)
+import Data.Pairing.BN254           (Fr, getRootOfUnity)
+import Data.Poly                    (VPoly, monomial)
+import Text.PrettyPrint.Leijen.Text (Pretty(..), enclose, indent, lbracket,
+                                     rbracket, text, vcat, (<+>))
 
-import Circuit.Affine (affineCircuitToAffineMap)
-import Circuit.Arithmetic (ArithCircuit(..), Gate(..), Wire(..), evalGate, evalArithCircuit)
+import           Circuit.Affine     (affineCircuitToAffineMap)
+import           Circuit.Arithmetic (ArithCircuit(..), Gate(..), Wire(..),
+                                     evalArithCircuit, evalGate)
 import qualified FFT
 
 -- | The sets of polynomials/constants as they occur in QAPs, grouped

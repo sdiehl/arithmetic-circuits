@@ -1,14 +1,14 @@
 module Test.Circuit.Expr where
 
-import Protolude
-import Test.Circuit.Affine
-import Test.Tasty.QuickCheck
-import qualified Data.Map as Map
-import Circuit.Expr hiding (fresh)
-import Circuit.Arithmetic
-import QAP
-import Fresh
-import Data.Curve.Weierstrass.BN254 (Fr)
+import           Circuit.Arithmetic
+import           Circuit.Expr                 hiding (fresh)
+import           Data.Curve.Weierstrass.BN254 (Fr)
+import qualified Data.Map                     as Map
+import           Fresh
+import           Protolude
+import           QAP
+import           Test.Circuit.Affine
+import           Test.Tasty.QuickCheck
 
 -------------------------------------------------------------------------------
 -- Generators

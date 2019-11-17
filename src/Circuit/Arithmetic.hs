@@ -1,7 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE DeriveAnyClass, DeriveGeneric, LambdaCase, ScopedTypeVariables #-}
 
 -- | Definition of arithmetic circuits: one with a single
 -- multiplication gate with affine inputs and another variant with an
@@ -23,9 +20,11 @@ module Circuit.Arithmetic
 
 import Protolude
 
-import Text.PrettyPrint.Leijen.Text as PP (Pretty(..), text, parens, list, vcat, hsep)
+import Text.PrettyPrint.Leijen.Text as PP (Pretty(..), hsep, list, parens, text,
+                                           vcat)
 
-import Circuit.Affine (AffineCircuit(..), evalAffineCircuit, collectInputsAffine, mapVarsAffine)
+import Circuit.Affine (AffineCircuit(..), collectInputsAffine,
+                       evalAffineCircuit, mapVarsAffine)
 
 -- | Wires are can be labeled in the ways given in this data type
 data Wire = InputWire Int

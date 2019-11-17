@@ -1,23 +1,21 @@
-{-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE TupleSections #-}
-{-# LANGUAGE PackageImports #-}
-{-# LANGUAGE DeriveAnyClass, DeriveGeneric #-}
+{-# LANGUAGE DeriveAnyClass, DeriveGeneric, PackageImports, RecordWildCards,
+             TupleSections #-}
 
 module Test.Circuit.Arithmetic where
 
 import Protolude
 
-import Data.Map (Map)
-import qualified Data.Map as Map
-import Test.Tasty.QuickCheck
-import Test.Tasty.HUnit
+import           Data.Map              (Map)
+import qualified Data.Map              as Map
+import           Test.Tasty.HUnit
+import           Test.Tasty.QuickCheck
 
-import Circuit.Arithmetic
 import Circuit.Affine
-import QAP
-import Fresh
-import Data.Pairing.BN254 (getRootOfUnity)
+import Circuit.Arithmetic
 import Data.Curve.Weierstrass.BN254 (Fr)
+import Data.Pairing.BN254           (getRootOfUnity)
+import Fresh
+import QAP
 
 -------------------------------------------------------------------------------
 -- Test values

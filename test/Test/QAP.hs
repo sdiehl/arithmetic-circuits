@@ -3,15 +3,15 @@ module Test.QAP where
 
 import Protolude
 
-import Data.Map (Map)
-import qualified Data.Map as Map
-import Test.Tasty.QuickCheck
-import Test.Tasty.HUnit
+import           Data.Map              (Map)
+import qualified Data.Map              as Map
+import           Test.Tasty.HUnit
+import           Test.Tasty.QuickCheck
 
-import QAP
-import Circuit.Arithmetic
 import Circuit.Affine
+import Circuit.Arithmetic
 import Data.Pairing.BN254 (Fr, getRootOfUnity)
+import QAP
 
 import Test.Circuit.Affine (arbAffineCircuit, arbInputVector)
 

@@ -5,10 +5,10 @@ module Circuit.Dot
 
 import Protolude
 
-import qualified Data.Text as Text
-import Text.PrettyPrint.Leijen.Text (Pretty(..))
+import qualified Data.Text                    as Text
+import           Text.PrettyPrint.Leijen.Text (Pretty(..))
 
-import Circuit.Affine ()
+import Circuit.Affine     ()
 import Circuit.Arithmetic (ArithCircuit(..), Gate(..), Wire(..), fetchVars)
 
 arithCircuitToDot

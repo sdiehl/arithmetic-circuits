@@ -18,8 +18,8 @@ module Circuit.Lang
 
 import Protolude
 
-import Circuit.Affine (AffineCircuit(..))
-import Circuit.Arithmetic (Wire(..), Gate(..))
+import Circuit.Affine     (AffineCircuit(..))
+import Circuit.Arithmetic (Gate(..), Wire(..))
 import Circuit.Expr
 
 c :: f -> Expr Wire f f
