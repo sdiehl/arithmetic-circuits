@@ -1,0 +1,37 @@
+language_extensions:
+- LambdaCase
+- RecordWildCards
+- OverloadedStrings
+- NoImplicitPrelude
+- FlexibleInstances
+- FlexibleContexts
+- ScopedTypeVariables
+- RankNTypes
+- ConstraintKinds
+- DataKinds
+- DeriveGeneric
+- GeneralizedNewtypeDeriving
+- MultiParamTypeClasses
+- OverloadedLists
+- PatternSynonyms
+- TypeFamilyDependencies
+newline: native
+steps:
+- simple_align:
+    cases: false
+    top_level_patterns: false
+    records: false
+- imports:
+    long_list_align: inline
+    pad_module_names: true
+    list_padding: 2
+    empty_list_align: inherit
+    align: group
+    space_surround: false
+    list_align: after_alias
+    separate_lists: false
+- language_pragmas:
+    style: compact
+    remove_redundant: true
+    align: true
+columns: 80

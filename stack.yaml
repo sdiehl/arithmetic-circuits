@@ -1,0 +1,11 @@
+resolver: lts-14.7
+extra-deps:
+  - elliptic-curve-0.3.0
+  - galois-field-1.0.0
+  - poly-0.3.2.0
+  - semirings-0.5.1
+  - pairing-1.0.0
+  - arithmoi-0.8.0.0
+  - bulletproofs-1.1.0
+  - git: git@github.com:adjoint-io/galois-fft.git
+    commit: e98c9e4c4466d0260e60b073da4b41235d679f2f

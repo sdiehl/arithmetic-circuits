@@ -1,0 +1,78 @@
+name:        arithmetic-circuits
+version:     0.1.0
+synopsis:    Arithmetic circuits for zkSNARKs
+description: Arithmetic circuits for zkSNARKs
+maintainer:  Adjoint Inc (info@adjoint.io)
+license:     MIT
+github:      adjoint-io/arithmetic-circuits
+category:    Cryptography
+
+default-extensions:
+  - LambdaCase
+  - OverloadedStrings
+  - NoImplicitPrelude
+  - GADTs
+
+dependencies:
+  - base >= 4.10 && < 5
+  - protolude >= 0.2 && < 0.3
+  - vector >= 0.12 && < 0.13
+  - poly >= 0.3.2
+  - elliptic-curve >= 0.3 && < 0.4
+  - galois-field >= 1 && < 2
+  - galois-fft >= 0.1
+  - bulletproofs
+  - pairing
+  - semirings
+  - MonadRandom
+  - wl-pprint-text
+  - containers
+  - text
+
+extra-source-files:
+  - README.md
+  - ChangeLog.md
+
+ghc-options:
+  - -freverse-errors
+  - -O2
+  - -Wall
+
+library:
+  exposed-modules:
+    - Circuit
+    - Circuit.Affine
+    - Circuit.Arithmetic
+    - Circuit.Bulletproofs
+    - Circuit.Dot
+    - Circuit.Expr
+    - Circuit.Lang
+    - QAP
+    - Fresh
+  source-dirs:
+    - src
+
+tests:
+  circuit-tests:
+    main: Main
+    dependencies:
+      - arithmetic-circuits
+      - pairing
+      - QuickCheck
+      - quickcheck-instances
+      - tasty
+      - tasty-discover
+      - tasty-hunit
+      - tasty-quickcheck
+    source-dirs:
+      - test
+
+benchmarks:
+  circuit-benchmarks:
+    main: Main
+    dependencies:
+      - criterion
+      - pairing
+      - arithmetic-circuits
+    source-dirs:
+      - bench
