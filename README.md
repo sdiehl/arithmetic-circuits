@@ -12,6 +12,8 @@ TODO
 
 ### Arithmetic circuits
 
+<img src="./.assets/circuit.png" alt="Arithmetic Circuit" />
+
 An arithmetic circuit over a finite field is a
 directed acyclic graph with gates as vertices and wires and edges. It consists of a list of multiplication gates together with a set of linear
 consistency equations relating the inputs and outputs of the gates.
