@@ -43,6 +43,15 @@ In this setting, an assignment (a_1,...,a_N) is valid for a circuit C if and onl
 polynomial t(x) divides the polynomial:
 P(x) = (A_0(x) + \sum_{k=1}^m a_k A_k(x)) (B_0(x) + \sum_{k=1}^m a_k B_k(x)) - (C_0(x) + \sum_{k=1}^m a_k C_k(x))
 
+Logical circuits can be written in terms of the addition, multiplication and
+negation operations.
+
+* `AND(a,b) = a*b`
+* `NOT(a) = 1 - a`
+* `NNAND(a,b) = 1 − a*b`
+* `NOR(a,b) = 1 − (1 − a)*(1 − b)`
+* `XOR(a,b) = (a+b) - 2*a*b`
+
 ## Example
 
 TODO
