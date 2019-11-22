@@ -60,7 +60,9 @@ The tower of finite fields we work with is defined as:
 
 ### Arithmetic circuits
 
+<p align="center">
 <img src="./.assets/circuit.png" alt="Arithmetic Circuit" />
+</p>
 
 An arithmetic circuit over a finite field is a
 directed acyclic graph with gates as vertices and wires and edges. It consists of a list of multiplication gates together with a set of linear
@@ -100,6 +102,10 @@ negation operations.
 * `NOR(a,b) = 1 − (1 − a)*(1 − b)`
 * `XOR(a,b) = (a+b) - 2*a*b`
 
+## Circuit Builder Monad
+
+TODO
+
 ## Example
 
 TODO
@@ -116,7 +122,7 @@ use this code in production until it has matured significantly.
 ## License
 
 ```
-Copyright (c) 2017-2019 Adjoint Inc.
+Copyright (c) 2017-2020 Adjoint Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
