@@ -4,11 +4,59 @@
 </a>
 </p>
 
-# arithmetic-circuits
+# Arithmetic Circuits
 
-TODO
+An *arithmetic circuit* is a low-level representation of a program that consists
+of gates computing arithmetic operations of addition and multiplication, with
+wires connecting the gates.
+
+This form allows us to express arbitrarily complex programs with a set of
+*private inputs* and *public inputs* whose execution can be publicly verified
+without revealing the private inputs. This construction relies on recent
+advances in zero-knowledge proving systems such as Groth16, Pinnochio, and
+Bulletproofs.
+
+This library presents a low-level interface for building zkSNARK proving systems
+from higher-level compilers. This system depends on the following cryptographic
+dependenices.
+
+* [galois-field](https://www.github.com/adjoint-io/galois-field) - Finite field
+  arithmetic
+* [galois-fft](https://www.github.com/adjoint-io/galois-fft) - Finite field
+  polynomial arithmetic based on fast Fourier transforms
+* [elliptic-curve](https://www.github.com/adjoint-io/elliptic-curve) - Elliptic
+  curve operations
+* [pairing](https://www.github.com/adjoint-io/pairing) - Bilinear pairings
+* [bulletproofs](https://www.github.com/adjoint-io/bulletproofs) - Bulletproofs
+  proof system
+* [arithmoi](https://www.github.com/adjoint-io/arithmoi) - Number theory
+  operations
+* [semirings](https://www.github.com/adjoint-io/semirings) - Algebraic semirings
+* [poly](https://www.github.com/adjoint-io/poly) - Efficient polynomial
+  arithmetic
 
 ## Theory
+
+### Galois Fields
+
+This library can build proof systems polymorphically over a variety of pairing
+friendly curves. By default we use the [BN254](https://github.com/adjoint-io/elliptic-curve/blob/master/src/Data/Curve/Weierstrass/BN254.hs)
+with an efficient implementation of the optimal Ate pairing.
+
+The Barreto-Naehrig (BN) family of curves achieve high security and efficiency
+with pairings due to an optimum embedding degree and high 2-adicity.. We have
+implemented the optimal Ate pairing over the BN254 curve we define `q` and `r`
+as:
+
+* `q = 36t^4 + 36t^3 + 24t^2 + 6t + 1`
+* `r = 36t^4 + 36t^3 + 18t^2 + 6t + 1`
+* `t = 4965661367192848881`
+
+The tower of finite fields we work with is defined as:
+
+-  `F_{q^2} = F_q[u]/u^2 + 1`
+-  `F_{q^6} = F_{q^2}[v]/v^3 - (9 + u)`
+-  `F_{q^{12}} = F_{q^6}[w]/w^2 - v`
 
 ### Arithmetic circuits
 
