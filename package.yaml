@@ -21,9 +21,9 @@ dependencies:
   - elliptic-curve >= 0.3 && < 0.4
   - galois-field >= 1 && < 2
   - galois-fft >= 0.1
-  - bulletproofs
-  - pairing
-  - semirings
+  - bulletproofs >= 1.0
+  - pairing >= 1.0
+  - semirings >= 0.5
   - MonadRandom
   - wl-pprint-text
   - containers
