@@ -98,7 +98,7 @@ negation operations.
 
 * `AND(a,b) = a*b`
 * `NOT(a) = 1 - a`
-* `NNAND(a,b) = 1 − a*b`
+* `NAND(a,b) = 1 − a*b`
 * `NOR(a,b) = 1 − (1 − a)*(1 − b)`
 * `XOR(a,b) = (a+b) - 2*a*b`
 
