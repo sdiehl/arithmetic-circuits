@@ -45,18 +45,18 @@ with an efficient implementation of the optimal Ate pairing.
 
 The Barreto-Naehrig (BN) family of curves achieve high security and efficiency
 with pairings due to an optimum embedding degree and high 2-adicity.. We have
-implemented the optimal Ate pairing over the BN254 curve we define $q$ and $r$
+implemented the optimal Ate pairing over the BN254 curve we define <img src="/tex/d5c18a8ca1894fd3a7d25f242cbe8890.svg?invert_in_darkmode&sanitize=true" align=middle width=7.928106449999989pt height=14.15524440000002pt/> and <img src="/tex/89f2e0d2d24bcf44db73aab8fc03252c.svg?invert_in_darkmode&sanitize=true" align=middle width=7.87295519999999pt height=14.15524440000002pt/>
 as:
 
-* $q = 36t^4 + 36t^3 + 24t^2 + 6t + 1$
-* $r = 36t^4 + 36t^3 + 18t^2 + 6t + 1$
-* $t = 4965661367192848881$
+* <img src="/tex/f041cced24931de6e6fbe77cf7fdc920.svg?invert_in_darkmode&sanitize=true" align=middle width=221.83192679999993pt height=26.76175259999998pt/>
+* <img src="/tex/c0ea121dfdf29950f20f29c86635f197.svg?invert_in_darkmode&sanitize=true" align=middle width=221.77679534999993pt height=26.76175259999998pt/>
+* <img src="/tex/71d71cc186d8238f79d664af6a48289f.svg?invert_in_darkmode&sanitize=true" align=middle width=184.01870685pt height=21.18721440000001pt/>
 
 The tower of finite fields we work with is defined as:
 
-* $\mathbb{F}_{q^2} = \mathbb{F}_q[u]/u^2 + 1$
-* $\mathbb{F}_{q^6} = \mathbb{F}_{q^2}[v]/v^3 - (9 + u)$
-* $\mathbb{F}_{q^{12}} = \mathbb{F}_{q^6}[w]/w^2 - v$
+* <img src="/tex/66eff114f6c4385dd25cca62457ad776.svg?invert_in_darkmode&sanitize=true" align=middle width=134.80114229999998pt height=26.76175259999998pt/>
+* <img src="/tex/661afe19025c1f97ae61a41f91d325e9.svg?invert_in_darkmode&sanitize=true" align=middle width=181.79879189999997pt height=26.76175259999998pt/>
+* <img src="/tex/ad84179c73fb68d93d2a147cce2cb19c.svg?invert_in_darkmode&sanitize=true" align=middle width=152.75024985pt height=26.76175259999998pt/>
 
 ### Arithmetic circuits
 
@@ -69,44 +69,43 @@ as vertices and wires and edges. It consists of a list of multiplication gates
 together with a set of linear consistency equations relating the inputs and
 outputs of the gates.
 
-Let F be a finite field and $C: \mathbb{F}^n \times \mathbb{F}^h \rightarrow \mathbb{F}^l$ a map that takes $n+h$
-arguments as inputs from $\mathbb{F}$ and outputs l elements in $\mathbb{F}$. The function C is an arithmetic circuit if the
+Let F be a finite field and <img src="/tex/c8a92e9bd23d2e4841e72114a69462d7.svg?invert_in_darkmode&sanitize=true" align=middle width=124.1115777pt height=27.91243950000002pt/> a map that takes <img src="/tex/5e27bca98285ab8eccf4d53506baeaec.svg?invert_in_darkmode&sanitize=true" align=middle width=39.42918209999999pt height=22.831056599999986pt/>
+arguments as inputs from <img src="/tex/2d4c6ac334688c42fb4089749e372345.svg?invert_in_darkmode&sanitize=true" align=middle width=10.045686749999991pt height=22.648391699999998pt/> and outputs l elements in <img src="/tex/2d4c6ac334688c42fb4089749e372345.svg?invert_in_darkmode&sanitize=true" align=middle width=10.045686749999991pt height=22.648391699999998pt/>. The function C is an arithmetic circuit if the
 value of the inputs that pass through wires to gates are only manipulated according to arithmetic operations + or x (allowing
 constant gates).
 
-Let $n$, $h$, $l$ respectively denote the input, witness and output size and
-$N = (n+h)+l$ be the number of all inputs and outputs of the circuit
-A tuple $(a_1, ..., a_N) \in \mathbb{F}^N$, is said to be a valid
-assignment for an arithmetic circuit C if $C(a_1,...,a_{n+h}) = (a_{n+h+1}, ..., a_N)$.
+Let <img src="/tex/55a049b8f161ae7cfeb0197d75aff967.svg?invert_in_darkmode&sanitize=true" align=middle width=9.86687624999999pt height=14.15524440000002pt/>, <img src="/tex/2ad9d098b937e46f9f58968551adac57.svg?invert_in_darkmode&sanitize=true" align=middle width=9.47111549999999pt height=22.831056599999986pt/>, <img src="/tex/2f2322dff5bde89c37bcae4116fe20a8.svg?invert_in_darkmode&sanitize=true" align=middle width=5.2283516999999895pt height=22.831056599999986pt/> respectively denote the input, witness and output size and
+<img src="/tex/dc35769e37858254d0d77fab2d83bcf4.svg?invert_in_darkmode&sanitize=true" align=middle width=114.45175665pt height=24.65753399999998pt/> be the number of all inputs and outputs of the circuit
+A tuple <img src="/tex/2c4cf6568afbabb029a579215dfa6e3e.svg?invert_in_darkmode&sanitize=true" align=middle width=120.09967859999999pt height=27.6567522pt/>, is said to be a valid
+assignment for an arithmetic circuit C if <img src="/tex/86c8263cd0afa711b888c85bcb5b03a3.svg?invert_in_darkmode&sanitize=true" align=middle width=241.74771059999995pt height=24.65753399999998pt/>.
 
 
 ### Quadratic Arithmetic Programs (QAP)
 
 QAPs are encodings of arithmetic circuits that allow the prover to construct a
-proof of knowledge of a valid assignment $(a_1,...,a_N) \in \mathbb{F}^N$ for a given
-circuit $C$.
+proof of knowledge of a valid assignment <img src="/tex/6e1ad13b9c0521871bb453942700c519.svg?invert_in_darkmode&sanitize=true" align=middle width=120.09967859999999pt height=27.6567522pt/> for a given
+circuit <img src="/tex/9b325b9e31e85137d1de765f43c0f8bc.svg?invert_in_darkmode&sanitize=true" align=middle width=12.92464304999999pt height=22.465723500000017pt/>.
 
-A quadratic arithmetic program (QAP) $Q(C)$ contains three sets of polynomials in
+A quadratic arithmetic program (QAP) <img src="/tex/9000cff3d46536c190fabb076ebe7cbb.svg?invert_in_darkmode&sanitize=true" align=middle width=38.70549539999999pt height=24.65753399999998pt/> contains three sets of polynomials in
 F[x]:
 
-$A=\{A_k(x) : k \in {0..m}\}$, $B=\{B_k(x) : k \in {0..m}\}$, $C=\{C_k(x) : k
-\in {0..m}\}$
+<img src="/tex/f9e3fcc232472e1452f06786885029ed.svg?invert_in_darkmode&sanitize=true" align=middle width=167.93168534999998pt height=24.65753399999998pt/>, <img src="/tex/7585b855b6b56838a0569b062b5478f0.svg?invert_in_darkmode&sanitize=true" align=middle width=169.03614255pt height=24.65753399999998pt/>, <img src="/tex/35236ef1f3e0c0947de75db667603ae3.svg?invert_in_darkmode&sanitize=true" align=middle width=167.94757484999997pt height=24.65753399999998pt/>
 
-and a target polynomial $t(x)$.
+and a target polynomial <img src="/tex/7592e8ca3cc64009a29ef0fb58f65c76.svg?invert_in_darkmode&sanitize=true" align=middle width=28.11651809999999pt height=24.65753399999998pt/>.
 
-In this setting, an assignment $(a_1,...,a_N)$ is valid for a circuit $C$ if and
-only if the target polynomial $t(x)$ divides the polynomial:
+In this setting, an assignment <img src="/tex/d1dd493c98f06e9ef29b5fdc411e29f8.svg?invert_in_darkmode&sanitize=true" align=middle width=78.31669229999999pt height=24.65753399999998pt/> is valid for a circuit <img src="/tex/9b325b9e31e85137d1de765f43c0f8bc.svg?invert_in_darkmode&sanitize=true" align=middle width=12.92464304999999pt height=22.465723500000017pt/> if and
+only if the target polynomial <img src="/tex/7592e8ca3cc64009a29ef0fb58f65c76.svg?invert_in_darkmode&sanitize=true" align=middle width=28.11651809999999pt height=24.65753399999998pt/> divides the polynomial:
 
-$P(x) = (A_0(x) + \sum_{k=1}^m a_k A_k(x)) (B_0(x) + \sum_{k=1}^m a_k B_k(x)) - (C_0(x) + \sum_{k=1}^m a_k C_k(x))$
+<img src="/tex/d6b98fe1452c7c16cfd1ad84a2e7331b.svg?invert_in_darkmode&sanitize=true" align=middle width=613.0190187pt height=26.438629799999987pt/>
 
 Logical circuits can be written in terms of the addition, multiplication and
 negation operations.
 
-* $AND(a,b) = a*b$
-* $NOT(a) = 1 - a$
-* $NAND(a,b) = 1 − a*b$
-* $NOR(a,b) = 1 − (1 − a)*(1 − b)$
-* $XOR(a,b) = (a+b) - 2*a*b$
+* <img src="/tex/05487edead6a212f2c6b0eb882e301bf.svg?invert_in_darkmode&sanitize=true" align=middle width=130.41681344999998pt height=24.65753399999998pt/>
+* <img src="/tex/26affbf877c9c00bcf2d4f78f88cedbf.svg?invert_in_darkmode&sanitize=true" align=middle width=120.27647609999997pt height=24.65753399999998pt/>
+* <img src="/tex/d42ecdc0230bb52bdc11f68c73872136.svg?invert_in_darkmode&sanitize=true" align=middle width=153.63599129999997pt height=24.65753399999998pt/>
+* <img src="/tex/93695159b317a047750512fe6c997521.svg?invert_in_darkmode&sanitize=true" align=middle width=179.85417449999997pt height=24.65753399999998pt/>
+* <img src="/tex/57e4d6a592fb9f580ff984df8690de97.svg?invert_in_darkmode&sanitize=true" align=middle width=221.99032019999996pt height=24.65753399999998pt/>
 
 ## Circuit Builder Monad
 
