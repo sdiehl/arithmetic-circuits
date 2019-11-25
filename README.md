@@ -108,7 +108,44 @@ negation operations.
 
 ## Circuit Builder Monad
 
-TODO
+```haskell
+type ExprM f a = State (ArithCircuit f, Int) a
+execCircuitBuilder :: ExprM f a -> ArithCircuit f
+```
+
+```haskell
+fresh :: ExprM f Int
+```
+
+```haskell
+-- | Fresh intermediate variables
+imm :: ExprM f Wire
+```
+
+```haskell
+-- | Fresh input variables
+freshInput :: ExprM f Wire
+```
+
+```haskell
+-- | Fresh output variables
+freshOutput :: ExprM f Wire
+```
+
+```haskell
+-- | Add a Mul and its output to the ArithCircuit
+emit :: Gate Wire f -> ExprM f ()
+```
+
+```haskell
+-- | Turn a wire into an affine circuit, or leave it be
+addVar :: Either Wire (AffineCircuit Wire f) -> AffineCircuit Wire f
+```
+
+```haskell
+-- | Turn an affine circuit into a wire, or leave it be
+addWire :: Num f => Either Wire (AffineCircuit Wire f) -> ExprM f Wire
+```
 
 ## Example
 
