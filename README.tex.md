@@ -143,7 +143,7 @@ allow the prover to construct a proof of a valid assignment.
 
 ```haskell
 roots :: [[Fr]]
-roots = evalFresh $ generateRoots (fromIntegral . (+ 1) <$> fresh) program
+roots = evalFresh (generateRoots (fromIntegral . (+ 1) <$> fresh) program)
 
 qap :: QAP Fr
 qap = arithCircuitToQAPFFT getRootOfUnity roots program
