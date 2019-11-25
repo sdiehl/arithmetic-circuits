@@ -143,36 +143,7 @@ allow the prover to construct a proof of a valid assignment.
 
 ```haskell
 roots :: [[Fr]]
-roots = evalFresh <img src="/tex/03928532e020cc2450c9e305aa51e636.svg?invert_in_darkmode&sanitize=true" align=middle width=270.32995935pt height=24.65753399999998pt/>> fresh) program
-
-qap :: QAP Fr
-qap = arithCircuitToQAPFFT getRootOfUnity roots program
-```
-
-*Note*: If a function to find the primitive roots of unity of the prime field
-<img src="/tex/2d4c6ac334688c42fb4089749e372345.svg?invert_in_darkmode&sanitize=true" align=middle width=10.045686749999991pt height=22.648391699999998pt/> used cannot be given, a slower conversion to a QAP can be used.
-
-There are three input wires to this arithmetic circuit. A valid input would be:
-
-```haskell
-input :: Map.Map Int Fr
-input = Map.fromList [(0, 7), (1, 5), (2, 4)]
-```
-
-A prover can now generate a valid assignment:
-
-```haskell
-assignment :: QAPSet Fr
-assignment = generateAssignment program input
-```
-
-The verifier can check the divisibility property of <img src="/tex/52be0087c9da1f0683ccc50761e8bcab.svg?invert_in_darkmode&sanitize=true" align=middle width=35.01719264999999pt height=24.65753399999998pt/> by <img src="/tex/083da1124b81d709f20f2575ae9138c3.svg?invert_in_darkmode&sanitize=true" align=middle width=34.06973294999999pt height=24.65753399999998pt/> for the
-given QAP.
-
-```haskell
-main :: IO ()
-main = do
-  pure $ verifyAssigment qap assignment
+roots = evalFresh (generateRoots (fromIntegral . (+ 1) <<img src="/tex/93142ace5b2eb0030ca1965b85a73a66.svg?invert_in_darkmode&sanitize=true" align=middle width=572.96966595pt height=85.29680940000001pt/>\mathbb{F}<img src="/tex/817efae2209aae0ea92bdb9b7816127e.svg?invert_in_darkmode&sanitize=true" align=middle width=620.0016768pt height=203.6529759pt/>P(x)<img src="/tex/2441df23627a504b2a4c6f5006893fd6.svg?invert_in_darkmode&sanitize=true" align=middle width=15.70402184999999pt height=22.831056599999986pt/>T(x)<img src="/tex/cffdae575457ef8fadc2d1cd93b792ef.svg?invert_in_darkmode&sanitize=true" align=middle width=272.7403965pt height=47.67123240000001pt/> verifyAssigment qap assignment
 ```
 
 ## Disclaimer
