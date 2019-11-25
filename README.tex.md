@@ -125,15 +125,16 @@ import Protolude
 import qualified Data.Map as Map
 import Data.Pairing.BN254 (Fr, getRootOfUnity)
 
-import Circuit.Arithmetic (Gate(..), ArithCircuit(..), generateRoots)
+import Circuit.Arithmetic (Gate(..), Wire(..), ArithCircuit(..), generateRoots)
 import Circuit.Affine (AffineCircuit(..))
 import Fresh (evalFresh, fresh)
-import QAP (arithCircuitToQAP, arithCircuitToQAPFFT, createPolynomials, createPolynomialsFFT)
+import QAP (QAP(..), QapSet(..), verifyAssignment, generateAssignment
+           , arithCircuitToQAP, arithCircuitToQAPFFT, createPolynomials, createPolynomialsFFT)
 
 program :: ArithCircuit Fr
 program = ArithCircuit
   [ Mul (Var (InputWire 0)) (Var (InputWire 1)) (IntermediateWire 0)
-  , Mul (IntermediateWire 0)(Add (Var (InputWire 0)) (Var (InputWire 2))) (OutputWire 0)
+  , Mul (Var (IntermediateWire 0))(Add (Var (InputWire 0)) (Var (InputWire 2))) (OutputWire 0)
   ]
 ```
 
@@ -141,28 +142,23 @@ We need to generate the roots of the circuit to construct polynomials $T(x)$ and
 $P(x)$ that satisfy the divisibility property and encode the circuit to a QAP to
 allow the prover to construct a proof of a valid assignment.
 
+We also need to give values to the three input wires to this arithmetic circuit.
+
 ```haskell
 roots :: [[Fr]]
-roots = evalFresh (generateRoots (fromIntegral . (+ 1) <$> fresh) program)
+roots = evalFresh (generateRoots (fmap (fromIntegral . (+ 1)) fresh) program)
 
 qap :: QAP Fr
 qap = arithCircuitToQAPFFT getRootOfUnity roots program
-```
 
-*Note*: If a function to find the primitive roots of unity of the prime field
-$\mathbb{F}$ used cannot be given, a slower conversion to a QAP can be used.
-
-There are three input wires to this arithmetic circuit. A valid input would be:
-
-```haskell
 input :: Map.Map Int Fr
 input = Map.fromList [(0, 7), (1, 5), (2, 4)]
 ```
 
-A prover can now generate a valid assignment:
+A prover can now generate a valid assignment.
 
 ```haskell
-assignment :: QAPSet Fr
+assignment :: QapSet Fr
 assignment = generateAssignment program input
 ```
 
@@ -172,7 +168,9 @@ given QAP.
 ```haskell
 main :: IO ()
 main = do
-  pure $ verifyAssigment qap assignment
+  if verifyAssignment qap assignment
+    then putText "Valid assignment"
+    else putText "Invalid assignment"
 ```
 
 ## Disclaimer

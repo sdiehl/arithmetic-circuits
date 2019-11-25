@@ -66,6 +66,16 @@ tests:
     source-dirs:
       - test
 
+  readme-test:
+    dependencies:
+      - arithmetic-circuits
+      - base
+      - pairing
+      - protolude
+      - markdown-unlit
+    main: README.lhs
+    ghc-options: -pgmL markdown-unlit
+
 benchmarks:
   circuit-benchmarks:
     main: Main
