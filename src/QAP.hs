@@ -1,8 +1,8 @@
 {-# OPTIONS -fno-warn-orphans #-}
 
 {-# LANGUAGE DeriveAnyClass, DeriveFoldable, DeriveFunctor, DeriveGeneric,
-             FlexibleInstances, RecordWildCards, ScopedTypeVariables,
-             TupleSections #-}
+             FlexibleInstances, ParallelListComp, RecordWildCards,
+             ScopedTypeVariables, TupleSections #-}
 
 -- | Definitions of quadratic arithmetic programs, along with their
 -- assignment verification functions and the translations from single
@@ -33,23 +33,26 @@ module QAP
   , addMissingZeroes
   , arithCircuitToGenQAP
   , arithCircuitToQAP
+  , arithCircuitToQAPFFT
   , createPolynomials
+  , createPolynomialsFFT
   ) where
 
-import Protolude hiding (quotRem)
+import Protolude hiding (quot, quotRem)
 
 import           Data.Foldable       (foldr1)
 import           Data.Map            (Map, fromList, mapKeys)
 import qualified Data.Map            as Map
 import qualified Data.Map.Merge.Lazy as Merge
 
-import Data.Euclidean               (Euclidean(..))
-import Data.Field                   (Field)
-import Data.Field.Galois            (GaloisField, pow)
-import Data.Pairing.BN254           (Fr, getRootOfUnity)
-import Data.Poly                    (VPoly, monomial)
-import Text.PrettyPrint.Leijen.Text (Pretty(..), enclose, indent, lbracket,
-                                     rbracket, text, vcat, (<+>))
+import           Data.Euclidean               (Euclidean(..))
+import           Data.Field                   (Field)
+import           Data.Field.Galois            (GaloisField, pow)
+import           Data.Poly
+import qualified Data.Vector                  as V
+import           Text.PrettyPrint.Leijen.Text (Pretty(..), enclose, indent,
+                                               lbracket, rbracket, text, vcat,
+                                               (<+>))
 
 import           Circuit.Affine     (affineCircuitToAffineMap)
 import           Circuit.Arithmetic (ArithCircuit(..), Gate(..), Wire(..),
@@ -214,7 +217,7 @@ foldQapSet
 foldQapSet = foldr1
 
 -- Alternative to @sequenceGenQap@
-createMapGenQap :: GaloisField k => [GenQAP ((,) k) k] -> GenQAP (Map k) k
+createMapGenQap :: Ord k => [GenQAP ((,) k) k] -> GenQAP (Map k) k
 createMapGenQap genQaps = GenQAP inpLefts inpRights outputs targets
   where
     inpLefts = fmap Map.fromList . sequenceQapSet . map genQapInputsLeft $ genQaps
@@ -343,12 +346,12 @@ gateToQAP
   -> Gate Wire k -- ^ circuit to encode as a QAP
   -> QAP k
 gateToQAP primRoots roots
-  = createPolynomials primRoots . addMissingZeroes roots . createMapGenQap . gateToGenQAP roots
+  = createPolynomialsFFT primRoots . addMissingZeroes roots . createMapGenQap . gateToGenQAP roots
 
 -- | Convert a single multiplication gate (with affine circuits for
 -- inputs) into a GenQAP
 gateToGenQAP
-  :: GaloisField k
+  :: (GaloisField k)
   => [k]         -- ^ arbitrarily chosen roots
   -> Gate Wire k -- ^ circuit to encode as a QAP
   -> [GenQAP ((,) k) k]
@@ -431,7 +434,7 @@ gateToGenQAP (root:roots) (Split inp outputs)
   where
     qap0 = GenQAP
       { genQapInputsLeft
-          = updateAtWires ((inp, (root, 0)):zipWith (\output i -> (output, (root, pow 2 i))) outputs [0 :: Integer ..])
+          = updateAtWires ((inp, (root, 0)):zipWith (\output i -> (output, (root, 2 `pow` i))) outputs [0 :: Integer ..])
             $ constantQapSet (root, 0)
       , genQapInputsRight
           = updateAtWires [(inp, (root, 0))]
@@ -463,22 +466,51 @@ gateToGenQAP _ _ = panic "gateToGenQAP: wrong number of roots supplied"
 -- all monics t_g(x) := x - r_g where r_g is the root corresponding to
 -- the gate g.
 
+
+-- | Naive construction of polynomials using Lagrange interpolation
+-- This has terrible complexity at the moment.
+-- Use the FFT-based approach if possible.
+createPolynomials :: forall k. (GaloisField k) => GenQAP (Map k) k -> QAP k
+createPolynomials (GenQAP inpLeft inpRight outp targetRoots)
+  = QAP
+    { qapInputsLeft = fmap (lagrangeInterpolate . Map.toList) inpLeft
+    , qapInputsRight = fmap (lagrangeInterpolate . Map.toList) inpRight
+    , qapOutputs = fmap (lagrangeInterpolate . Map.toList) outp
+    , qapTarget = foldl' (*) (monomial 0 1) . map ((\root -> toPoly $ V.fromList [-root, 1]) . fst) . Map.toList $ targetRoots
+    }
+    where
+    lagrangeInterpolate :: [(k, k)] -> VPoly k
+    lagrangeInterpolate xys = sum
+      [ scale 0 f (roots `quot` root x)
+      | f <- zipWith (/) ys phis
+      | x <- xs
+      ]
+      where
+        xs, ys :: [k]
+        (xs,ys) = foldr (\(a, b) ~(as,bs) -> (a:as,b:bs)) ([],[]) xys
+        phis :: [k]
+        phis = map (eval (deriv roots)) xs
+        roots :: VPoly k
+        roots = foldl' (\acc xi -> acc * root xi) 1 xs     -- (X - x_0) * ... * (X - x_{n-1})
+        root xi = toPoly . V.fromList $ [-xi,  1]          -- (X - x_i)
+
 -- | Create polynomials using FFT-based polynomial operations instead
 -- of naive.
-createPolynomials
+createPolynomialsFFT
   :: GaloisField k
   => (Int -> k)       -- ^ function that gives us the primitive 2^k-th root
                       -- of unity
   -> GenQAP (Map k) k -- ^ GenQAP containing the coordinates we want
                       -- to interpolate
   -> QAP k
-createPolynomials primRoots (GenQAP inpLeft inpRight outp targetRoots)
+createPolynomialsFFT primRoots (GenQAP inpLeft inpRight outp targetRoots)
   = QAP
     { qapInputsLeft = fmap (FFT.interpolate primRoots . Map.elems) inpLeft
     , qapInputsRight = fmap (FFT.interpolate primRoots . Map.elems) inpRight
     , qapOutputs = fmap (FFT.interpolate primRoots . Map.elems) outp
     , qapTarget = FFT.fftTargetPoly primRoots (Map.size targetRoots)
     }
+
 
 -- | Convert an arithmetic circuit into a GenQAP: perform every step
 -- of the QAP translation except the final interpolation step.
@@ -495,13 +527,25 @@ arithCircuitToGenQAP rootsPerGate (ArithCircuit gates)
 
 -- | Convert an arithmetic circuit into a QAP
 arithCircuitToQAP
-  :: [[Fr]] -- ^ arbitrarily chosen roots, one for each gate
-  -> ArithCircuit Fr -- ^ circuit to encode as a QAP
-  -> QAP Fr
+  :: GaloisField k
+  => [[k]] -- ^ arbitrarily chosen roots, one for each gate
+  -> ArithCircuit k -- ^ circuit to encode as a QAP
+  -> QAP k
 arithCircuitToQAP roots circuit =
-  createPolynomials getRootOfUnity
-    $ arithCircuitToGenQAP roots circuit
+  createPolynomials
+  $ arithCircuitToGenQAP roots circuit
 
+-- | Convert an arithmetic circuit into a QAP
+arithCircuitToQAPFFT
+  :: GaloisField k
+  => (Int -> k)       -- ^ function that gives us the primitive 2^k-th root
+                      -- of unity
+  -> [[k]]            -- ^ arbitrarily chosen roots, one for each gate
+  -> ArithCircuit k   -- ^ circuit to encode as a QAP
+  -> QAP k
+arithCircuitToQAPFFT primRoots roots circuit =
+  createPolynomialsFFT primRoots
+  $ arithCircuitToGenQAP roots circuit
 -- | Add zeroes for those roots that are missing, to prevent the
 -- values in the GenQAP to be too sparse. (We can be sparse in wire
 -- values, but not in values at roots, otherwise the interpolation

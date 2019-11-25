@@ -26,7 +26,6 @@ dependenices.
   polynomial arithmetic based on fast Fourier transforms
 * [elliptic-curve](https://www.github.com/adjoint-io/elliptic-curve) - Elliptic
   curve operations
-* [pairing](https://www.github.com/adjoint-io/pairing) - Bilinear pairings
 * [bulletproofs](https://www.github.com/adjoint-io/bulletproofs) - Bulletproofs
   proof system
 * [arithmoi](https://www.github.com/adjoint-io/arithmoi) - Number theory
@@ -69,7 +68,7 @@ as vertices and wires and edges. It consists of a list of multiplication gates
 together with a set of linear consistency equations relating the inputs and
 outputs of the gates.
 
-Let F be a finite field and $C: \mathbb{F}^n \times \mathbb{F}^h \rightarrow \mathbb{F}^l$ a map that takes $n+h$
+Let $\mathbb{F}$ be a finite field and $C: \mathbb{F}^n \times \mathbb{F}^h \rightarrow \mathbb{F}^l$ a map that takes $n+h$
 arguments as inputs from $\mathbb{F}$ and outputs l elements in $\mathbb{F}$. The function C is an arithmetic circuit if the
 value of the inputs that pass through wires to gates are only manipulated according to arithmetic operations + or x (allowing
 constant gates).
@@ -87,15 +86,14 @@ proof of knowledge of a valid assignment $(a_1,...,a_N) \in \mathbb{F}^N$ for a 
 circuit $C$.
 
 A quadratic arithmetic program (QAP) $Q(C)$ contains three sets of polynomials in
-F[x]:
+$\mathbb{F}[x]$:
 
-$A=\{A_k(x) : k \in {0..m}\}$, $B=\{B_k(x) : k \in {0..m}\}$, $C=\{C_k(x) : k
-\in {0..m}\}$
+$A=\{A_k(x) : k \in \{0..m\}\}$, $B=\{B_k(x) : k \in \{0..m\}\}$, $C=\{C_k(x) : k \in \{0..m\}\}$
 
-and a target polynomial $t(x)$.
+and a target polynomial $T(x)$.
 
 In this setting, an assignment $(a_1,...,a_N)$ is valid for a circuit $C$ if and
-only if the target polynomial $t(x)$ divides the polynomial:
+only if the target polynomial $T(x)$ divides the polynomial:
 
 $P(x) = (A_0(x) + \sum_{k=1}^m a_k A_k(x)) (B_0(x) + \sum_{k=1}^m a_k B_k(x)) - (C_0(x) + \sum_{k=1}^m a_k C_k(x))$
 
@@ -114,16 +112,67 @@ TODO
 
 ## Example
 
-TODO
+The following example represents the image of the arithmetic circuit
+[above](#arithmetic-circuits-1). We'll use the library
+[pairing](https://www.github.com/adjoint-io/pairing) that provides a field of
+points of the BN254 curve and precomputes primitive roots of unity for binary
+powers that divide $r - 1$.
 
 ```haskell
+{-# LANGUAGE DataKinds #-}
 import Protolude
 
-arithCircuitExample :: ArithCircuit Fr
-arithCircuitExample = ArithCircuit
+import qualified Data.Map as Map
+import Data.Pairing.BN254 (Fr, getRootOfUnity)
+
+import Circuit.Arithmetic (Gate(..), ArithCircuit(..), generateRoots)
+import Circuit.Affine (AffineCircuit(..))
+import Fresh (evalFresh, fresh)
+import QAP (arithCircuitToQAP, arithCircuitToQAPFFT, createPolynomials, createPolynomialsFFT)
+
+program :: ArithCircuit Fr
+program = ArithCircuit
   [ Mul (Var (InputWire 0)) (Var (InputWire 1)) (IntermediateWire 0)
   , Mul (IntermediateWire 0)(Add (Var (InputWire 0)) (Var (InputWire 2))) (OutputWire 0)
   ]
+```
+
+We need to generate the roots of the circuit to construct polynomials $T(x)$ and
+$P(x)$ that satisfy the divisibility property and encode the circuit to a QAP to
+allow the prover to construct a proof of a valid assignment.
+
+```haskell
+roots :: [[Fr]]
+roots = evalFresh $ generateRoots (fromIntegral . (+ 1) <$> fresh) program
+
+qap :: QAP Fr
+qap = arithCircuitToQAPFFT getRootOfUnity roots program
+```
+
+*Note*: If a function to find the primitive roots of unity of the prime field
+$\mathbb{F}$ used cannot be given, a slower conversion to a QAP can be used.
+
+There are three input wires to this arithmetic circuit. A valid input would be:
+
+```haskell
+input :: Map.Map Int Fr
+input = Map.fromList [(0, 7), (1, 5), (2, 4)]
+```
+
+A prover can now generate a valid assignment:
+
+```haskell
+assignment :: QAPSet Fr
+assignment = generateAssignment program input
+```
+
+The verifier can check the divisibility property of $P(x)$ by $T(x)$ for the
+given QAP.
+
+```haskell
+main :: IO ()
+main = do
+  pure $ verifyAssigment qap assignment
 ```
 
 ## Disclaimer

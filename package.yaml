@@ -1,11 +1,11 @@
-name:        arithmetic-circuits
-version:     0.1.0
-synopsis:    Arithmetic circuits for zkSNARKs
+name: arithmetic-circuits
+version: 0.1.0
+synopsis: Arithmetic circuits for zkSNARKs
 description: Arithmetic circuits for zkSNARKs
-maintainer:  Adjoint Inc (info@adjoint.io)
-license:     MIT
-github:      adjoint-io/arithmetic-circuits
-category:    Cryptography
+maintainer: Adjoint Inc (info@adjoint.io)
+license: MIT
+github: adjoint-io/arithmetic-circuits
+category: Cryptography
 
 default-extensions:
   - LambdaCase
@@ -22,7 +22,6 @@ dependencies:
   - galois-field >= 1 && < 2
   - galois-fft >= 0.1
   - bulletproofs >= 1.0
-  - pairing >= 1.0
   - semirings >= 0.5
   - MonadRandom
   - wl-pprint-text

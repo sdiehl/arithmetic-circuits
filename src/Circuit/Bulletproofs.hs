@@ -1,10 +1,5 @@
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE LambdaCase #-}
-{-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE ViewPatterns #-}
+{-# LANGUAGE DeriveAnyClass, DeriveGeneric, LambdaCase, RecordWildCards,
+             ScopedTypeVariables, TypeApplications, ViewPatterns #-}
 
 -- | Translate arithmetic circuits into a Hadamard product equation
 -- and linear constraints.
@@ -23,35 +18,22 @@ module Circuit.Bulletproofs
   )
 where
 
-import qualified Bulletproofs.ArithmeticCircuit as Bulletproofs
-import Bulletproofs.Utils (commit)
-import Circuit.Affine
-  ( AffineCircuit (..),
-    affineCircuitToAffineMap,
-    dotProduct,
-    evalAffineCircuit,
-  )
-import Circuit.Arithmetic
-  ( ArithCircuit (..),
-    Gate (..),
-    Wire (..),
-    collectInputsGate,
-    mapVarsGate,
-    outputWires,
-  )
-import Control.Monad.Random (MonadRandom, getRandomR)
-import Data.Curve.Weierstrass.SECP256K1 (Fr, PA)
-import qualified Data.Map as Map
-import Protolude
-import Text.PrettyPrint.Leijen.Text as PP
-  ( (<+>),
-    Pretty (..),
-    enclose,
-    lbracket,
-    rbracket,
-    text,
-    vcat,
-  )
+import qualified Bulletproofs.ArithmeticCircuit   as Bulletproofs
+import           Bulletproofs.Utils               (commit)
+import           Circuit.Affine                   (AffineCircuit(..),
+                                                   affineCircuitToAffineMap,
+                                                   dotProduct,
+                                                   evalAffineCircuit)
+import           Circuit.Arithmetic               (ArithCircuit(..), Gate(..),
+                                                   Wire(..), collectInputsGate,
+                                                   mapVarsGate, outputWires)
+import           Control.Monad.Random             (MonadRandom, getRandomR)
+import           Data.Curve.Weierstrass.SECP256K1 (Fr, PA)
+import qualified Data.Map                         as Map
+import           Protolude
+import           Text.PrettyPrint.Leijen.Text     as PP (Pretty(..), enclose,
+                                                         lbracket, rbracket,
+                                                         text, vcat, (<+>))
 
 newtype AltArithCircuit f = AltArithCircuit [Gate AltWire f]
   deriving (Show, Generic, NFData)

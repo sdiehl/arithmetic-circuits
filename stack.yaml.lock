@@ -19,10 +19,10 @@ packages:
   original:
     hackage: galois-field-1.0.0
 - completed:
-    hackage: poly-0.3.2.0@sha256:2cba686238c5074d551a56375f441b18745fbc465cdc3e0acf1701ae928f3ae9,1918
+    hackage: poly-0.3.2.0@sha256:58492507d2bfb74c2d45c34a61438153f3a5cfb658154a7a504cf4397eb39d6d,2028
     pantry-tree:
       size: 1451
-      sha256: 0a08b17044344cfa9923aefddad623987d12ed2d25738f5acb46f2ec71f8610d
+      sha256: fbd14e37c925471ae2eebf81b44f007a629f092e2754c2b3fe1045df6d4c4844
   original:
     hackage: poly-0.3.2.0
 - completed:

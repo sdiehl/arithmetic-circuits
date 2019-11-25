@@ -1,22 +1,19 @@
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE PackageImports #-}
-{-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE DeriveAnyClass, DeriveGeneric, PackageImports, RecordWildCards,
+             TupleSections #-}
 
 module Test.Circuit.Arithmetic where
 
-import Circuit.Affine
-import Circuit.Arithmetic
-import Data.Curve.Weierstrass.BN254 (Fr)
-import Data.Map (Map)
-import qualified Data.Map as Map
-import Data.Pairing.BN254 (getRootOfUnity)
-import Fresh
-import Protolude
-import QAP
-import Test.Tasty.HUnit
-import Test.Tasty.QuickCheck
+import           Circuit.Affine
+import           Circuit.Arithmetic
+import           Data.Curve.Weierstrass.BN254 (Fr)
+import           Data.Map                     (Map)
+import qualified Data.Map                     as Map
+import           Data.Pairing.BN254           (getRootOfUnity)
+import           Fresh
+import           Protolude
+import           QAP
+import           Test.Tasty.HUnit
+import           Test.Tasty.QuickCheck
 
 -------------------------------------------------------------------------------
 -- Test values
@@ -209,5 +206,5 @@ prop_arithCircuitToQAP_fft (ArithCircuitWithInputs program inputs) =
       ArithCircuit (_ : _) -> all testInput inputs
   where
     roots = evalFresh $ generateRoots (fromIntegral . (+ 1) <$> fresh) program
-    qap = createPolynomials getRootOfUnity $ arithCircuitToGenQAP roots program
+    qap = createPolynomialsFFT getRootOfUnity $ arithCircuitToGenQAP roots program
     testInput input = verifyAssignment qap $ generateAssignment program input
