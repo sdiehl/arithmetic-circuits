@@ -26,7 +26,6 @@ dependenices.
   polynomial arithmetic based on fast Fourier transforms
 * [elliptic-curve](https://www.github.com/adjoint-io/elliptic-curve) - Elliptic
   curve operations
-* [pairing](https://www.github.com/adjoint-io/pairing) - Bilinear pairings
 * [bulletproofs](https://www.github.com/adjoint-io/bulletproofs) - Bulletproofs
   proof system
 * [arithmoi](https://www.github.com/adjoint-io/arithmoi) - Number theory
@@ -69,7 +68,7 @@ as vertices and wires and edges. It consists of a list of multiplication gates
 together with a set of linear consistency equations relating the inputs and
 outputs of the gates.
 
-Let F be a finite field and <img src="/tex/c8a92e9bd23d2e4841e72114a69462d7.svg?invert_in_darkmode&sanitize=true" align=middle width=124.1115777pt height=27.91243950000002pt/> a map that takes <img src="/tex/5e27bca98285ab8eccf4d53506baeaec.svg?invert_in_darkmode&sanitize=true" align=middle width=39.42918209999999pt height=22.831056599999986pt/>
+Let <img src="/tex/2d4c6ac334688c42fb4089749e372345.svg?invert_in_darkmode&sanitize=true" align=middle width=10.045686749999991pt height=22.648391699999998pt/> be a finite field and <img src="/tex/c8a92e9bd23d2e4841e72114a69462d7.svg?invert_in_darkmode&sanitize=true" align=middle width=124.1115777pt height=27.91243950000002pt/> a map that takes <img src="/tex/5e27bca98285ab8eccf4d53506baeaec.svg?invert_in_darkmode&sanitize=true" align=middle width=39.42918209999999pt height=22.831056599999986pt/>
 arguments as inputs from <img src="/tex/2d4c6ac334688c42fb4089749e372345.svg?invert_in_darkmode&sanitize=true" align=middle width=10.045686749999991pt height=22.648391699999998pt/> and outputs l elements in <img src="/tex/2d4c6ac334688c42fb4089749e372345.svg?invert_in_darkmode&sanitize=true" align=middle width=10.045686749999991pt height=22.648391699999998pt/>. The function C is an arithmetic circuit if the
 value of the inputs that pass through wires to gates are only manipulated according to arithmetic operations + or x (allowing
 constant gates).
@@ -87,14 +86,14 @@ proof of knowledge of a valid assignment <img src="/tex/6e1ad13b9c0521871bb45394
 circuit <img src="/tex/9b325b9e31e85137d1de765f43c0f8bc.svg?invert_in_darkmode&sanitize=true" align=middle width=12.92464304999999pt height=22.465723500000017pt/>.
 
 A quadratic arithmetic program (QAP) <img src="/tex/9000cff3d46536c190fabb076ebe7cbb.svg?invert_in_darkmode&sanitize=true" align=middle width=38.70549539999999pt height=24.65753399999998pt/> contains three sets of polynomials in
-F[x]:
+<img src="/tex/a420c52aa24a502d60aef830b3b45f9f.svg?invert_in_darkmode&sanitize=true" align=middle width=28.57312259999999pt height=24.65753399999998pt/>:
 
-<img src="/tex/f9e3fcc232472e1452f06786885029ed.svg?invert_in_darkmode&sanitize=true" align=middle width=167.93168534999998pt height=24.65753399999998pt/>, <img src="/tex/7585b855b6b56838a0569b062b5478f0.svg?invert_in_darkmode&sanitize=true" align=middle width=169.03614255pt height=24.65753399999998pt/>, <img src="/tex/35236ef1f3e0c0947de75db667603ae3.svg?invert_in_darkmode&sanitize=true" align=middle width=167.94757484999997pt height=24.65753399999998pt/>
+<img src="/tex/cf792d8b490521d817a643a4adea6f28.svg?invert_in_darkmode&sanitize=true" align=middle width=184.37011065pt height=24.65753399999998pt/>, <img src="/tex/258504deb4909bd9a3058fffbdb20262.svg?invert_in_darkmode&sanitize=true" align=middle width=185.47456784999997pt height=24.65753399999998pt/>, <img src="/tex/36b962f85e4e4de2a88919a5e00acbe1.svg?invert_in_darkmode&sanitize=true" align=middle width=184.38600014999997pt height=24.65753399999998pt/>
 
-and a target polynomial <img src="/tex/7592e8ca3cc64009a29ef0fb58f65c76.svg?invert_in_darkmode&sanitize=true" align=middle width=28.11651809999999pt height=24.65753399999998pt/>.
+and a target polynomial <img src="/tex/083da1124b81d709f20f2575ae9138c3.svg?invert_in_darkmode&sanitize=true" align=middle width=34.06973294999999pt height=24.65753399999998pt/>.
 
 In this setting, an assignment <img src="/tex/d1dd493c98f06e9ef29b5fdc411e29f8.svg?invert_in_darkmode&sanitize=true" align=middle width=78.31669229999999pt height=24.65753399999998pt/> is valid for a circuit <img src="/tex/9b325b9e31e85137d1de765f43c0f8bc.svg?invert_in_darkmode&sanitize=true" align=middle width=12.92464304999999pt height=22.465723500000017pt/> if and
-only if the target polynomial <img src="/tex/7592e8ca3cc64009a29ef0fb58f65c76.svg?invert_in_darkmode&sanitize=true" align=middle width=28.11651809999999pt height=24.65753399999998pt/> divides the polynomial:
+only if the target polynomial <img src="/tex/083da1124b81d709f20f2575ae9138c3.svg?invert_in_darkmode&sanitize=true" align=middle width=34.06973294999999pt height=24.65753399999998pt/> divides the polynomial:
 
 <img src="/tex/d6b98fe1452c7c16cfd1ad84a2e7331b.svg?invert_in_darkmode&sanitize=true" align=middle width=613.0190187pt height=26.438629799999987pt/>
 
@@ -113,16 +112,67 @@ TODO
 
 ## Example
 
-TODO
+The following example represents the image of the arithmetic circuit
+[above](#arithmetic-circuits-1). We'll use the library
+[pairing](https://www.github.com/adjoint-io/pairing) that provides a field of
+points of the BN254 curve and precomputes primitive roots of unity for binary
+powers that divide <img src="/tex/580e7a6446bf50562e34247c545883a2.svg?invert_in_darkmode&sanitize=true" align=middle width=36.18335654999999pt height=21.18721440000001pt/>.
 
 ```haskell
+{-# LANGUAGE DataKinds #-}
 import Protolude
 
-arithCircuitExample :: ArithCircuit Fr
-arithCircuitExample = ArithCircuit
+import qualified Data.Map as Map
+import Data.Pairing.BN254 (Fr, getRootOfUnity)
+
+import Circuit.Arithmetic (Gate(..), ArithCircuit(..), generateRoots)
+import Circuit.Affine (AffineCircuit(..))
+import Fresh (evalFresh, fresh)
+import QAP (arithCircuitToQAP, arithCircuitToQAPFFT, createPolynomials, createPolynomialsFFT)
+
+program :: ArithCircuit Fr
+program = ArithCircuit
   [ Mul (Var (InputWire 0)) (Var (InputWire 1)) (IntermediateWire 0)
   , Mul (IntermediateWire 0)(Add (Var (InputWire 0)) (Var (InputWire 2))) (OutputWire 0)
   ]
+```
+
+We need to generate the roots of the circuit to construct polynomials <img src="/tex/083da1124b81d709f20f2575ae9138c3.svg?invert_in_darkmode&sanitize=true" align=middle width=34.06973294999999pt height=24.65753399999998pt/> and
+<img src="/tex/52be0087c9da1f0683ccc50761e8bcab.svg?invert_in_darkmode&sanitize=true" align=middle width=35.01719264999999pt height=24.65753399999998pt/> that satisfy the divisibility property and encode the circuit to a QAP to
+allow the prover to construct a proof of a valid assignment.
+
+```haskell
+roots :: [[Fr]]
+roots = evalFresh <img src="/tex/03928532e020cc2450c9e305aa51e636.svg?invert_in_darkmode&sanitize=true" align=middle width=270.32995935pt height=24.65753399999998pt/>> fresh) program
+
+qap :: QAP Fr
+qap = arithCircuitToQAPFFT getRootOfUnity roots program
+```
+
+*Note*: If a function to find the primitive roots of unity of the prime field
+<img src="/tex/2d4c6ac334688c42fb4089749e372345.svg?invert_in_darkmode&sanitize=true" align=middle width=10.045686749999991pt height=22.648391699999998pt/> used cannot be given, a slower conversion to a QAP can be used.
+
+There are three input wires to this arithmetic circuit. A valid input would be:
+
+```haskell
+input :: Map.Map Int Fr
+input = Map.fromList [(0, 7), (1, 5), (2, 4)]
+```
+
+A prover can now generate a valid assignment:
+
+```haskell
+assignment :: QAPSet Fr
+assignment = generateAssignment program input
+```
+
+The verifier can check the divisibility property of <img src="/tex/52be0087c9da1f0683ccc50761e8bcab.svg?invert_in_darkmode&sanitize=true" align=middle width=35.01719264999999pt height=24.65753399999998pt/> by <img src="/tex/083da1124b81d709f20f2575ae9138c3.svg?invert_in_darkmode&sanitize=true" align=middle width=34.06973294999999pt height=24.65753399999998pt/> for the
+given QAP.
+
+```haskell
+main :: IO ()
+main = do
+  pure $ verifyAssigment qap assignment
 ```
 
 ## Disclaimer
