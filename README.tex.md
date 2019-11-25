@@ -198,8 +198,7 @@ assignment :: QapSet Fr
 assignment = generateAssignment program input
 ```
 
-The verifier can check the divisibility property of $P(x)$ by $T(x)$ for the
-given QAP.
+The verifier can check the divisibility property of $P(x)$ by $T(x)$ for the given circuit.
 
 ```haskell
 main :: IO ()
