@@ -45,62 +45,68 @@ with an efficient implementation of the optimal Ate pairing.
 
 The Barreto-Naehrig (BN) family of curves achieve high security and efficiency
 with pairings due to an optimum embedding degree and high 2-adicity.. We have
-implemented the optimal Ate pairing over the BN254 curve we define `q` and `r`
+implemented the optimal Ate pairing over the BN254 curve we define $q$ and $r$
 as:
 
-* `q = 36t^4 + 36t^3 + 24t^2 + 6t + 1`
-* `r = 36t^4 + 36t^3 + 18t^2 + 6t + 1`
-* `t = 4965661367192848881`
+* $q = 36t^4 + 36t^3 + 24t^2 + 6t + 1$
+* $r = 36t^4 + 36t^3 + 18t^2 + 6t + 1$
+* $t = 4965661367192848881$
 
 The tower of finite fields we work with is defined as:
 
--  `F_{q^2} = F_q[u]/u^2 + 1`
--  `F_{q^6} = F_{q^2}[v]/v^3 - (9 + u)`
--  `F_{q^{12}} = F_{q^6}[w]/w^2 - v`
+* $\mathbb{F}_{q^2} = \mathbb{F}_q[u]/u^2 + 1$
+* $\mathbb{F}_{q^6} = \mathbb{F}_{q^2}[v]/v^3 - (9 + u)$
+* $\mathbb{F}_{q^{12}} = \mathbb{F}_{q^6}[w]/w^2 - v$
 
 ### Arithmetic circuits
 
 <p align="center">
-<img src="./.assets/circuit.png" alt="Arithmetic Circuit" />
+<img src="./.assets/circuit.png" alt="Arithmetic Circuit" height=300 align="left" />
 </p>
 
-An arithmetic circuit over a finite field is a
-directed acyclic graph with gates as vertices and wires and edges. It consists of a list of multiplication gates together with a set of linear
-consistency equations relating the inputs and outputs of the gates.
+An arithmetic circuit over a finite field is a directed acyclic graph with gates
+as vertices and wires and edges. It consists of a list of multiplication gates
+together with a set of linear consistency equations relating the inputs and
+outputs of the gates.
 
-Let F be a finite field and C: F^n x F^h -> F^l a map that takes n+h
-arguments as inputs from F and outputs l elements in F. The function C is an arithmetic circuit if the
+Let F be a finite field and $C: \mathbb{F}^n \times \mathbb{F}^h \rightarrow \mathbb{F}^l$ a map that takes $n+h$
+arguments as inputs from $\mathbb{F}$ and outputs l elements in $\mathbb{F}$. The function C is an arithmetic circuit if the
 value of the inputs that pass through wires to gates are only manipulated according to arithmetic operations + or x (allowing
 constant gates).
 
-Let n, h, l respectively denote the input, witness and output size and
-N = (n+h)+l be the number of all inputs and outputs of the circuit
-A tuple (a_1, ..., a_N) \in F^N, is said to be a valid
-assignment for an arithmetic circuit C if C(a_1,...,a_{n+h}) = (a_{n+h+1}, ..., a_N).
+Let $n$, $h$, $l$ respectively denote the input, witness and output size and
+$N = (n+h)+l$ be the number of all inputs and outputs of the circuit
+A tuple $(a_1, ..., a_N) \in \mathbb{F}^N$, is said to be a valid
+assignment for an arithmetic circuit C if $C(a_1,...,a_{n+h}) = (a_{n+h+1}, ..., a_N)$.
 
 
 ### Quadratic Arithmetic Programs (QAP)
 
 QAPs are encodings of arithmetic circuits that allow the prover to construct a
-proof of knowledge of a valid assignment (a_1,...,a_N) \in F^N for a given
-circuit C.
+proof of knowledge of a valid assignment $(a_1,...,a_N) \in \mathbb{F}^N$ for a given
+circuit $C$.
 
-A quadratic arithmetic program (QAP) Q(C) contains three sets of polynomials in F[x]:
-A={A_k(x) : k \in {0..m}}, B={B_k(x) : k \in {0..m}} and C={C_k(x) : k \in {0..m}},
-and a target polynomial t(x).
+A quadratic arithmetic program (QAP) $Q(C)$ contains three sets of polynomials in
+F[x]:
 
-In this setting, an assignment (a_1,...,a_N) is valid for a circuit C if and only if the target
-polynomial t(x) divides the polynomial:
-P(x) = (A_0(x) + \sum_{k=1}^m a_k A_k(x)) (B_0(x) + \sum_{k=1}^m a_k B_k(x)) - (C_0(x) + \sum_{k=1}^m a_k C_k(x))
+$A=\{A_k(x) : k \in {0..m}\}$, $B=\{B_k(x) : k \in {0..m}\}$, $C=\{C_k(x) : k
+\in {0..m}\}$
+
+and a target polynomial $t(x)$.
+
+In this setting, an assignment $(a_1,...,a_N)$ is valid for a circuit $C$ if and
+only if the target polynomial $t(x)$ divides the polynomial:
+
+$P(x) = (A_0(x) + \sum_{k=1}^m a_k A_k(x)) (B_0(x) + \sum_{k=1}^m a_k B_k(x)) - (C_0(x) + \sum_{k=1}^m a_k C_k(x))$
 
 Logical circuits can be written in terms of the addition, multiplication and
 negation operations.
 
-* `AND(a,b) = a*b`
-* `NOT(a) = 1 - a`
-* `NAND(a,b) = 1 − a*b`
-* `NOR(a,b) = 1 − (1 − a)*(1 − b)`
-* `XOR(a,b) = (a+b) - 2*a*b`
+* $AND(a,b) = a*b$
+* $NOT(a) = 1 - a$
+* $NAND(a,b) = 1 − a*b$
+* $NOR(a,b) = 1 − (1 − a)*(1 − b)$
+* $XOR(a,b) = (a+b) - 2*a*b$
 
 ## Circuit Builder Monad
 
