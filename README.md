@@ -125,15 +125,16 @@ import Protolude
 import qualified Data.Map as Map
 import Data.Pairing.BN254 (Fr, getRootOfUnity)
 
-import Circuit.Arithmetic (Gate(..), ArithCircuit(..), generateRoots)
+import Circuit.Arithmetic (Gate(..), Wire(..), ArithCircuit(..), generateRoots)
 import Circuit.Affine (AffineCircuit(..))
 import Fresh (evalFresh, fresh)
-import QAP (arithCircuitToQAP, arithCircuitToQAPFFT, createPolynomials, createPolynomialsFFT)
+import QAP (QAP(..), QapSet(..), verifyAssignment, generateAssignment
+           , arithCircuitToQAP, arithCircuitToQAPFFT, createPolynomials, createPolynomialsFFT)
 
 program :: ArithCircuit Fr
 program = ArithCircuit
   [ Mul (Var (InputWire 0)) (Var (InputWire 1)) (IntermediateWire 0)
-  , Mul (IntermediateWire 0)(Add (Var (InputWire 0)) (Var (InputWire 2))) (OutputWire 0)
+  , Mul (Var (IntermediateWire 0))(Add (Var (InputWire 0)) (Var (InputWire 2))) (OutputWire 0)
   ]
 ```
 
@@ -141,9 +142,35 @@ We need to generate the roots of the circuit to construct polynomials <img src="
 <img src="/tex/52be0087c9da1f0683ccc50761e8bcab.svg?invert_in_darkmode&sanitize=true" align=middle width=35.01719264999999pt height=24.65753399999998pt/> that satisfy the divisibility property and encode the circuit to a QAP to
 allow the prover to construct a proof of a valid assignment.
 
+We also need to give values to the three input wires to this arithmetic circuit.
+
 ```haskell
 roots :: [[Fr]]
-roots = evalFresh (generateRoots (fromIntegral . (+ 1) <<img src="/tex/93142ace5b2eb0030ca1965b85a73a66.svg?invert_in_darkmode&sanitize=true" align=middle width=572.96966595pt height=85.29680940000001pt/>\mathbb{F}<img src="/tex/817efae2209aae0ea92bdb9b7816127e.svg?invert_in_darkmode&sanitize=true" align=middle width=620.0016768pt height=203.6529759pt/>P(x)<img src="/tex/2441df23627a504b2a4c6f5006893fd6.svg?invert_in_darkmode&sanitize=true" align=middle width=15.70402184999999pt height=22.831056599999986pt/>T(x)<img src="/tex/cffdae575457ef8fadc2d1cd93b792ef.svg?invert_in_darkmode&sanitize=true" align=middle width=272.7403965pt height=47.67123240000001pt/> verifyAssigment qap assignment
+roots = evalFresh (generateRoots (fmap (fromIntegral . (+ 1)) fresh) program)
+
+qap :: QAP Fr
+qap = arithCircuitToQAPFFT getRootOfUnity roots program
+
+input :: Map.Map Int Fr
+input = Map.fromList [(0, 7), (1, 5), (2, 4)]
+```
+
+A prover can now generate a valid assignment.
+
+```haskell
+assignment :: QapSet Fr
+assignment = generateAssignment program input
+```
+
+The verifier can check the divisibility property of <img src="/tex/52be0087c9da1f0683ccc50761e8bcab.svg?invert_in_darkmode&sanitize=true" align=middle width=35.01719264999999pt height=24.65753399999998pt/> by <img src="/tex/083da1124b81d709f20f2575ae9138c3.svg?invert_in_darkmode&sanitize=true" align=middle width=34.06973294999999pt height=24.65753399999998pt/> for the
+given QAP.
+
+```haskell
+main :: IO ()
+main = do
+  if verifyAssignment qap assignment
+    then putText "Valid assignment"
+    else putText "Invalid assignment"
 ```
 
 ## Disclaimer
