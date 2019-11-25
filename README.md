@@ -198,8 +198,7 @@ assignment :: QapSet Fr
 assignment = generateAssignment program input
 ```
 
-The verifier can check the divisibility property of <img src="/tex/52be0087c9da1f0683ccc50761e8bcab.svg?invert_in_darkmode&sanitize=true" align=middle width=35.01719264999999pt height=24.65753399999998pt/> by <img src="/tex/083da1124b81d709f20f2575ae9138c3.svg?invert_in_darkmode&sanitize=true" align=middle width=34.06973294999999pt height=24.65753399999998pt/> for the
-given QAP.
+The verifier can check the divisibility property of <img src="/tex/52be0087c9da1f0683ccc50761e8bcab.svg?invert_in_darkmode&sanitize=true" align=middle width=35.01719264999999pt height=24.65753399999998pt/> by <img src="/tex/083da1124b81d709f20f2575ae9138c3.svg?invert_in_darkmode&sanitize=true" align=middle width=34.06973294999999pt height=24.65753399999998pt/> for the given circuit.
 
 ```haskell
 main :: IO ()
