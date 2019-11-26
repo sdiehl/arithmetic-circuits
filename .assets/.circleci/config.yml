@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: fpco/stack-build:lts
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Cached Dependencies
+          keys:
+            - arithmetic-circuits-{{ checksum "package.yaml" }}
+      - run:
+          name: Resolve/Update Dependencies
+          command: stack setup
+      - run:
+          name: Run tests
+          command: stack test --fast
+      - save_cache:
+          name: Cache Dependencies
+          key: arithmetic-circuits-{{ checksum "package.yaml" }}
+          paths:
+            - ".stack-work"

@@ -4,6 +4,8 @@
 </a>
 </p>
 
+[![CircleCI](https://circleci.com/gh/adjoint-io/arithmetic-circuits.svg?style=svg)](https://circleci.com/gh/adjoint-io/arithmetic-circuits)
+
 # Arithmetic Circuits
 
 An *arithmetic circuit* is a low-level representation of a program that consists
