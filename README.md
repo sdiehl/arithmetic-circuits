@@ -163,21 +163,30 @@ arithmetic circuit [above](#arithmetic-circuits-1).
 
 ```haskell ignore
 program :: ArithCircuit Fr
-program = execCircuitBuilder <img src="/tex/4fc182d9ca10181f85444d64991b4f62.svg?invert_in_darkmode&sanitize=true" align=middle width=124.01565329999998pt height=22.831056599999986pt/>> input
-  i1 <- deref <<img src="/tex/1c1d4fa3482507a0a0ce9485579cc4a9.svg?invert_in_darkmode&sanitize=true" align=middle width=163.99021154999997pt height=22.831056599999986pt/>> input
-  let r0 = mul i0 i1
-      r1 = mul r0 (add i0 i2)
-  ret r1
+program = execCircuitBuilder <img src="/tex/adb478d926594d9e619831f4836194e3.svg?invert_in_darkmode&sanitize=true" align=middle width=708.0015624pt height=124.74886710000001pt/> execCircuitBuilder program
 ```
 
-The output of an arithmetic circuit can be converted to a DOT graph and display
-it as a graph.
+## Example
 
-```haskell ignore
-dotOutput :: Text
-dotOutput = arithCircuitToDot <img src="/tex/79bf90d763b01295f18042a947d15f47.svg?invert_in_darkmode&sanitize=true" align=middle width=700.5028733999999pt height=164.20092150000002pt/>r - 1<img src="/tex/e669a12254dafeeb34eec7c07244ce05.svg?invert_in_darkmode&sanitize=true" align=middle width=700.27457115pt height=203.6529759pt/> do
-  i0 <- deref <<img src="/tex/465343d6773512ce7812f866f58faf28.svg?invert_in_darkmode&sanitize=true" align=middle width=163.99021154999997pt height=22.831056599999986pt/>> input
-  i2 <- deref <<img src="/tex/7bfea768905ffffe4fc4a7ad428c05b2.svg?invert_in_darkmode&sanitize=true" align=middle width=490.86891149999997pt height=45.84475500000001pt/>T(x)<img src="/tex/b2584d6517f9c72bcd800016d8d1fa0d.svg?invert_in_darkmode&sanitize=true" align=middle width=27.11199479999999pt height=22.831056599999986pt/>P(x)<img src="/tex/3d688cfd3f6ea02dead75f511c40e5c0.svg?invert_in_darkmode&sanitize=true" align=middle width=902.7356893499999pt height=322.0091391pt/>P(x)<img src="/tex/2441df23627a504b2a4c6f5006893fd6.svg?invert_in_darkmode&sanitize=true" align=middle width=15.70402184999999pt height=22.831056599999986pt/>T(x)$ for the given circuit.
+We'll keep taking the program constructed with our DSL as example and will
+use the library [pairing](https://www.github.com/adjoint-io/pairing) that
+provides a field of points of the BN254 curve and precomputes primitive roots of
+unity for binary powers that divide <img src="/tex/580e7a6446bf50562e34247c545883a2.svg?invert_in_darkmode&sanitize=true" align=middle width=36.18335654999999pt height=21.18721440000001pt/>.
+
+```haskell
+import Protolude
+
+import qualified Data.Map as Map
+import Data.Pairing.BN254 (Fr, getRootOfUnity)
+
+import Circuit.Arithmetic
+import Circuit.Expr
+import Circuit.Lang
+import Fresh (evalFresh, fresh)
+import QAP
+
+program :: ArithCircuit Fr
+program = execCircuitBuilder <img src="/tex/ce8bc0cdbc2970342fabcc02e3d83914.svg?invert_in_darkmode&sanitize=true" align=middle width=708.0015624pt height=85.29681270000002pt/>T(x)<img src="/tex/b2584d6517f9c72bcd800016d8d1fa0d.svg?invert_in_darkmode&sanitize=true" align=middle width=27.11199479999999pt height=22.831056599999986pt/>P(x)<img src="/tex/3d688cfd3f6ea02dead75f511c40e5c0.svg?invert_in_darkmode&sanitize=true" align=middle width=902.7356893499999pt height=322.0091391pt/>P(x)<img src="/tex/2441df23627a504b2a4c6f5006893fd6.svg?invert_in_darkmode&sanitize=true" align=middle width=15.70402184999999pt height=22.831056599999986pt/>T(x)$ for the given circuit.
 
 ```haskell
 main :: IO ()
