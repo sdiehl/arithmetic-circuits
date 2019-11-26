@@ -164,9 +164,9 @@ arithmetic circuit [above](#arithmetic-circuits-1).
 ```haskell ignore
 program :: ArithCircuit Fr
 program = execCircuitBuilder $ do
-  i0 <- deref <$> input
-  i1 <- deref <$> input
-  i2 <- deref <$> input
+  i0 <- fmap deref input
+  i1 <- fmap deref input
+  i2 <- fmap deref input
   let r0 = mul i0 i1
       r1 = mul r0 (add i0 i2)
   ret r1
@@ -201,9 +201,9 @@ import QAP
 
 program :: ArithCircuit Fr
 program = execCircuitBuilder $ do
-  i0 <- deref <$> input
-  i1 <- deref <$> input
-  i2 <- deref <$> input
+  i0 <- fmap deref input
+  i1 <- fmap deref input
+  i2 <- fmap deref input
   let r0 = mul i0 i1
       r1 = mul r0 (add i0 i2)
   ret r1
