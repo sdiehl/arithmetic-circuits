@@ -106,99 +106,78 @@ negation operations.
 * <img src="/tex/e7994598838dc8af6fb203d13bc3690c.svg?invert_in_darkmode&sanitize=true" align=middle width=240.1277472pt height=24.65753399999998pt/>
 * <img src="/tex/57e4d6a592fb9f580ff984df8690de97.svg?invert_in_darkmode&sanitize=true" align=middle width=221.99032019999996pt height=24.65753399999998pt/>
 
-## Circuit Builder Monad
+## DSL and Circuit Builder Monad
 
-```haskell
+Any arithmetic circuit can be built using a domain specific language to
+construct circuits that lives inside [Lang.hs](src/Circuit/Lang.hs).
+
+```haskell ignore
 type ExprM f a = State (ArithCircuit f, Int) a
 execCircuitBuilder :: ExprM f a -> ArithCircuit f
 ```
 
-```haskell
-fresh :: ExprM f Int
+```haskell ignore
+-- | Binary arithmetic operations
+add, sub, mul :: Expr Wire f f -> Expr Wire f f -> Expr Wire f f
 ```
 
-```haskell
--- | Fresh intermediate variables
-imm :: ExprM f Wire
+```haskell ignore
+-- | Binary logic operations
+-- Have to use underscore or similar to avoid shadowing @and@ and @or@
+-- from Prelude/Protolude.
+and_, or_, xor_ :: Expr Wire f Bool -> Expr Wire f Bool -> Expr Wire f Bool
 ```
 
-```haskell
--- | Fresh input variables
-freshInput :: ExprM f Wire
+```haskell ignore
+-- | Negate expression
+not_ :: Expr Wire f Bool -> Expr Wire f Bool
 ```
 
-```haskell
--- | Fresh output variables
-freshOutput :: ExprM f Wire
+```haskell ignore
+-- | Compare two expressions
+eq :: Expr Wire f f -> Expr Wire f f -> Expr Wire f Bool
 ```
 
-```haskell
--- | Add a Mul and its output to the ArithCircuit
-emit :: Gate Wire f -> ExprM f ()
+```haskell ignore
+-- | Convert wire to expression
+deref :: Wire -> Expr Wire f f
 ```
 
-```haskell
--- | Turn a wire into an affine circuit, or leave it be
-addVar :: Either Wire (AffineCircuit Wire f) -> AffineCircuit Wire f
+```haskell ignore
+-- | Return compilation of expression into an intermediate wire
+e :: Num f => Expr Wire f f -> ExprM f Wire
 ```
 
-```haskell
--- | Turn an affine circuit into a wire, or leave it be
-addWire :: Num f => Either Wire (AffineCircuit Wire f) -> ExprM f Wire
+```haskell ignore
+-- | Conditional statement on expressions
+cond :: Expr Wire f Bool -> Expr Wire f ty -> Expr Wire f ty -> Expr Wire f ty
 ```
 
-## Example
+```haskell ignore
+-- | Return compilation of expression into an output wire
+ret :: Num f => Expr Wire f f -> ExprM f Wire
+```
 
-The following example represents the image of the arithmetic circuit
-[above](#arithmetic-circuits-1). We'll use the library
-[pairing](https://www.github.com/adjoint-io/pairing) that provides a field of
-points of the BN254 curve and precomputes primitive roots of unity for binary
-powers that divide <img src="/tex/580e7a6446bf50562e34247c545883a2.svg?invert_in_darkmode&sanitize=true" align=middle width=36.18335654999999pt height=21.18721440000001pt/>.
+The following program represents the image of the
+arithmetic circuit [above](#arithmetic-circuits-1).
 
-```haskell
-{-# LANGUAGE DataKinds #-}
-import Protolude
-
-import qualified Data.Map as Map
-import Data.Pairing.BN254 (Fr, getRootOfUnity)
-
-import Circuit.Arithmetic (Gate(..), Wire(..), ArithCircuit(..), generateRoots)
-import Circuit.Affine (AffineCircuit(..))
-import Fresh (evalFresh, fresh)
-import QAP (QAP(..), QapSet(..), verifyAssignment, generateAssignment, arithCircuitToQAPFFT)
-
+```haskell ignore
 program :: ArithCircuit Fr
-program = ArithCircuit
-  [ Mul (Var (InputWire 0)) (Var (InputWire 1)) (IntermediateWire 0)
-  , Mul (Var (IntermediateWire 0))(Add (Var (InputWire 0)) (Var (InputWire 2))) (OutputWire 0)
-  ]
+program = execCircuitBuilder <img src="/tex/4fc182d9ca10181f85444d64991b4f62.svg?invert_in_darkmode&sanitize=true" align=middle width=124.01565329999998pt height=22.831056599999986pt/>> input
+  i1 <- deref <<img src="/tex/1c1d4fa3482507a0a0ce9485579cc4a9.svg?invert_in_darkmode&sanitize=true" align=middle width=163.99021154999997pt height=22.831056599999986pt/>> input
+  let r0 = mul i0 i1
+      r1 = mul r0 (add i0 i2)
+  ret r1
 ```
 
-We need to generate the roots of the circuit to construct polynomials <img src="/tex/083da1124b81d709f20f2575ae9138c3.svg?invert_in_darkmode&sanitize=true" align=middle width=34.06973294999999pt height=24.65753399999998pt/> and
-<img src="/tex/52be0087c9da1f0683ccc50761e8bcab.svg?invert_in_darkmode&sanitize=true" align=middle width=35.01719264999999pt height=24.65753399999998pt/> that satisfy the divisibility property and encode the circuit to a QAP to
-allow the prover to construct a proof of a valid assignment.
+The output of an arithmetic circuit can be converted to a DOT graph and display
+it as a graph.
 
-We also need to give values to the three input wires to this arithmetic circuit.
-
-```haskell
-roots :: [[Fr]]
-roots = evalFresh (generateRoots (fmap (fromIntegral . (+ 1)) fresh) program)
-
-qap :: QAP Fr
-qap = arithCircuitToQAPFFT getRootOfUnity roots program
-
-input :: Map.Map Int Fr
-input = Map.fromList [(0, 7), (1, 5), (2, 4)]
-```
-
-A prover can now generate a valid assignment.
-
-```haskell
-assignment :: QapSet Fr
-assignment = generateAssignment program input
-```
-
-The verifier can check the divisibility property of <img src="/tex/52be0087c9da1f0683ccc50761e8bcab.svg?invert_in_darkmode&sanitize=true" align=middle width=35.01719264999999pt height=24.65753399999998pt/> by <img src="/tex/083da1124b81d709f20f2575ae9138c3.svg?invert_in_darkmode&sanitize=true" align=middle width=34.06973294999999pt height=24.65753399999998pt/> for the given circuit.
+```haskell ignore
+dotOutput :: Text
+dotOutput = arithCircuitToDot <img src="/tex/79bf90d763b01295f18042a947d15f47.svg?invert_in_darkmode&sanitize=true" align=middle width=700.5028733999999pt height=164.20092150000002pt/>r - 1<img src="/tex/e669a12254dafeeb34eec7c07244ce05.svg?invert_in_darkmode&sanitize=true" align=middle width=700.27457115pt height=203.6529759pt/> do
+  i0 <- deref <<img src="/tex/465343d6773512ce7812f866f58faf28.svg?invert_in_darkmode&sanitize=true" align=middle width=163.99021154999997pt height=22.831056599999986pt/>> input
+  i2 <- deref <<img src="/tex/7bfea768905ffffe4fc4a7ad428c05b2.svg?invert_in_darkmode&sanitize=true" align=middle width=490.86891149999997pt height=45.84475500000001pt/>T(x)<img src="/tex/b2584d6517f9c72bcd800016d8d1fa0d.svg?invert_in_darkmode&sanitize=true" align=middle width=27.11199479999999pt height=22.831056599999986pt/>P(x)<img src="/tex/3d688cfd3f6ea02dead75f511c40e5c0.svg?invert_in_darkmode&sanitize=true" align=middle width=902.7356893499999pt height=322.0091391pt/>P(x)<img src="/tex/2441df23627a504b2a4c6f5006893fd6.svg?invert_in_darkmode&sanitize=true" align=middle width=15.70402184999999pt height=22.831056599999986pt/>T(x)$ for the given circuit.
 
 ```haskell
 main :: IO ()
