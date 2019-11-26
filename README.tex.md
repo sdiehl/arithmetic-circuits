@@ -163,13 +163,13 @@ arithmetic circuit [above](#arithmetic-circuits-1).
 
 ```haskell ignore
 program :: ArithCircuit Fr
-program = execCircuitBuilder \$ do
+program = execCircuitBuilder (do
   i0 <- fmap deref input
   i1 <- fmap deref input
   i2 <- fmap deref input
   let r0 = mul i0 i1
       r1 = mul r0 (add i0 i2)
-  ret r1
+  ret r1)
 ```
 
 The output of an arithmetic circuit can be converted to a DOT graph and display
@@ -177,7 +177,7 @@ it as a graph.
 
 ```haskell ignore
 dotOutput :: Text
-dotOutput = arithCircuitToDot \$ execCircuitBuilder program
+dotOutput = arithCircuitToDot (execCircuitBuilder program)
 ```
 
 ## Example
@@ -200,13 +200,13 @@ import Fresh (evalFresh, fresh)
 import QAP
 
 program :: ArithCircuit Fr
-program = execCircuitBuilder \$ do
+program = execCircuitBuilder (do
   i0 <- fmap deref input
   i1 <- fmap deref input
   i2 <- fmap deref input
   let r0 = mul i0 i1
       r1 = mul r0 (add i0 i2)
-  ret r1
+  ret r1)
 ```
 
 We need to generate the roots of the circuit to construct polynomials $T(x)$ and
