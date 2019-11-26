@@ -20,6 +20,8 @@ This library presents a low-level interface for building zkSNARK proving systems
 from higher-level compilers. This system depends on the following cryptographic
 dependenices.
 
+* [pairing](https://www.github.com/adjoint-io/pairing) - Optimised bilinear
+  pairings over elliptic curves
 * [galois-field](https://www.github.com/adjoint-io/galois-field) - Finite field
   arithmetic
 * [galois-fft](https://www.github.com/adjoint-io/galois-fft) - Finite field
@@ -43,7 +45,7 @@ friendly curves. By default we use the [BN254](https://github.com/adjoint-io/ell
 with an efficient implementation of the optimal Ate pairing.
 
 The Barreto-Naehrig (BN) family of curves achieve high security and efficiency
-with pairings due to an optimum embedding degree and high 2-adicity.. We have
+with pairings due to an optimum embedding degree and high 2-adicity. We have
 implemented the optimal Ate pairing over the BN254 curve we define $q$ and $r$
 as:
 
