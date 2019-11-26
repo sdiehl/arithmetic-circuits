@@ -38,7 +38,7 @@ dependenices.
 
 ## Theory
 
-### Finite Fields
+### Towers of Finite Fields
 
 This library can build proof systems polymorphically over a variety of pairing
 friendly curves. By default we use the [BN254](https://github.com/adjoint-io/elliptic-curve/blob/master/src/Data/Curve/Weierstrass/BN254.hs)
