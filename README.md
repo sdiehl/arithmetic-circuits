@@ -20,6 +20,8 @@ This library presents a low-level interface for building zkSNARK proving systems
 from higher-level compilers. This system depends on the following cryptographic
 dependenices.
 
+* [pairing](https://www.github.com/adjoint-io/pairing) - Optimised bilinear
+  pairings over elliptic curves
 * [galois-field](https://www.github.com/adjoint-io/galois-field) - Finite field
   arithmetic
 * [galois-fft](https://www.github.com/adjoint-io/galois-fft) - Finite field
