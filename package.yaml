@@ -15,18 +15,20 @@ default-extensions:
 
 dependencies:
   - base >= 4.10 && < 5
-  - protolude >= 0.2 && < 0.3
-  - vector >= 0.12 && < 0.13
-  - poly >= 0.3.2
-  - elliptic-curve >= 0.3 && < 0.4
-  - galois-field >= 1 && < 2
-  - galois-fft >= 0.1
   - bulletproofs >= 1.0
-  - semirings >= 0.5
-  - MonadRandom
-  - wl-pprint-text
   - containers
+  - elliptic-curve >= 0.3 && < 0.4
+  - filepath
+  - galois-fft >= 0.1
+  - galois-field >= 1 && < 2
+  - MonadRandom
+  - poly >= 0.3.2
+  - process-extras
+  - protolude >= 0.2 && < 0.3
+  - semirings >= 0.5
   - text
+  - vector >= 0.12 && < 0.13
+  - wl-pprint-text
 
 extra-source-files:
   - README.md
@@ -46,8 +48,8 @@ library:
     - Circuit.Dot
     - Circuit.Expr
     - Circuit.Lang
-    - QAP
     - Fresh
+    - QAP
   source-dirs:
     - src
 

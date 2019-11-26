@@ -1,11 +1,14 @@
 -- | Visualise circuits using Graphviz
 module Circuit.Dot
   ( arithCircuitToDot
+  , dotWriteSVG
   ) where
 
 import Protolude
 
 import qualified Data.Text                    as Text
+import           System.FilePath              (replaceExtension)
+import           System.Process.Text          (readProcessWithExitCode)
 import           Text.PrettyPrint.Leijen.Text (Pretty(..))
 
 import Circuit.Affine     ()
@@ -62,3 +65,15 @@ arithCircuitToDot (ArithCircuit gates)
           ++ map (\output -> dotArrow gateLabel (dotWire output)) outputs
       where
         gateLabel = Text.concat . fmap dotWire $ outputs
+
+
+callDot :: Text -> IO Text
+callDot g = do
+  (_, out, err) <- readProcessWithExitCode "dot" ["-Tsvg"] g
+  if err == "" then pure out else panic err
+
+
+dotWriteSVG :: FilePath -> Text -> IO ()
+dotWriteSVG path = callDot >=> writeFile (replaceExtension path ".svg")
+
+

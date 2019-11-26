@@ -52,6 +52,7 @@ eq = EEq
 deref :: Wire -> Expr Wire f f
 deref = EVar
 
+-- | Return compilation of expression into an intermediate wire
 e :: Num f => Expr Wire f f -> ExprM f Wire
 e = compileWithWire imm
 
@@ -59,7 +60,7 @@ e = compileWithWire imm
 cond :: Expr Wire f Bool -> Expr Wire f ty -> Expr Wire f ty -> Expr Wire f ty
 cond = EIf
 
--- | Return
+-- | Return compilation of expression into an output wire
 ret :: Num f => Expr Wire f f -> ExprM f Wire
 ret = compileWithWire freshOutput
 
