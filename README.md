@@ -100,11 +100,11 @@ only if the target polynomial <img src="/tex/083da1124b81d709f20f2575ae9138c3.sv
 Logical circuits can be written in terms of the addition, multiplication and
 negation operations.
 
-* <img src="/tex/05487edead6a212f2c6b0eb882e301bf.svg?invert_in_darkmode&sanitize=true" align=middle width=130.41681344999998pt height=24.65753399999998pt/>
-* <img src="/tex/26affbf877c9c00bcf2d4f78f88cedbf.svg?invert_in_darkmode&sanitize=true" align=middle width=120.27647609999997pt height=24.65753399999998pt/>
-* <img src="/tex/a45a5d659b15986b26d1aeba7c808734.svg?invert_in_darkmode&sanitize=true" align=middle width=173.72718329999998pt height=24.65753399999998pt/>
-* <img src="/tex/e7994598838dc8af6fb203d13bc3690c.svg?invert_in_darkmode&sanitize=true" align=middle width=240.1277472pt height=24.65753399999998pt/>
-* <img src="/tex/57e4d6a592fb9f580ff984df8690de97.svg?invert_in_darkmode&sanitize=true" align=middle width=221.99032019999996pt height=24.65753399999998pt/>
+* <img src="/tex/cc073b29543f2694def1c15e2d40cb07.svg?invert_in_darkmode&sanitize=true" align=middle width=110.71153004999998pt height=24.65753399999998pt/>
+* <img src="/tex/bf01d477a12bededfd9d65617fedacc9.svg?invert_in_darkmode&sanitize=true" align=middle width=117.37814879999999pt height=24.65753399999998pt/>
+* <img src="/tex/e5079841837a9e98336245a5ecdb2538.svg?invert_in_darkmode&sanitize=true" align=middle width=151.35072315pt height=24.65753399999998pt/>
+* <img src="/tex/065fdfe9ba3a8e9e839cea21d15eb1cd.svg?invert_in_darkmode&sanitize=true" align=middle width=221.2135992pt height=24.65753399999998pt/>
+* <img src="/tex/85a105718538df533c60d0d34caeac95.svg?invert_in_darkmode&sanitize=true" align=middle width=187.1858703pt height=24.65753399999998pt/>
 
 ## DSL and Circuit Builder Monad
 
