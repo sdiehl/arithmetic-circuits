@@ -172,13 +172,18 @@ program = execCircuitBuilder (do
   ret r1)
 ```
 
-The output of an arithmetic circuit can be converted to a DOT graph and display
-it as a graph.
+The output of an arithmetic circuit can be converted to a DOT graph and save it
+as SVG.
 
 ```haskell ignore
 dotOutput :: Text
 dotOutput = arithCircuitToDot (execCircuitBuilder program)
 ```
+
+<p>
+  <img src=".assets/arithmetic-circuit-example.svg" width="250"/>
+</p>
+
 
 ## Example
 
