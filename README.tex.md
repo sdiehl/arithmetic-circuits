@@ -163,7 +163,7 @@ arithmetic circuit [above](#arithmetic-circuits-1).
 
 ```haskell ignore
 program :: ArithCircuit Fr
-program = execCircuitBuilder $ do
+program = execCircuitBuilder \$ do
   i0 <- fmap deref input
   i1 <- fmap deref input
   i2 <- fmap deref input
@@ -177,7 +177,7 @@ it as a graph.
 
 ```haskell ignore
 dotOutput :: Text
-dotOutput = arithCircuitToDot $ execCircuitBuilder program
+dotOutput = arithCircuitToDot \$ execCircuitBuilder program
 ```
 
 ## Example
@@ -200,7 +200,7 @@ import Fresh (evalFresh, fresh)
 import QAP
 
 program :: ArithCircuit Fr
-program = execCircuitBuilder $ do
+program = execCircuitBuilder \$ do
   i0 <- fmap deref input
   i1 <- fmap deref input
   i2 <- fmap deref input
