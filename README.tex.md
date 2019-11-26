@@ -100,11 +100,11 @@ $P(x) = (A_0(x) + \sum_{k=1}^m a_k A_k(x)) (B_0(x) + \sum_{k=1}^m a_k B_k(x)) - 
 Logical circuits can be written in terms of the addition, multiplication and
 negation operations.
 
-* $AND(a,b) = a*b$
-* $NOT(a) = 1 - a$
-* $NAND(a,b) = 1 - a*b$
-* $NOR(a,b) = 1 - (1 - a)*(1 - b)$
-* $XOR(a,b) = (a+b) - 2*a*b$
+* $\text{AND}(a,b) = ab$
+* $\text{NOT}(a) = 1 - a$
+* $\text{NAND}(a,b) = 1 - ab$
+* $\text{NOR}(a,b) = 1 - (1 - a)(1 - b)$
+* $\text{XOR}(a,b) = (a+b) - 2ab$
 
 ## DSL and Circuit Builder Monad
 
