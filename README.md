@@ -45,7 +45,7 @@ friendly curves. By default we use the [BN254](https://github.com/adjoint-io/ell
 with an efficient implementation of the optimal Ate pairing.
 
 The Barreto-Naehrig (BN) family of curves achieve high security and efficiency
-with pairings due to an optimum embedding degree and high 2-adicity.. We have
+with pairings due to an optimum embedding degree and high 2-adicity. We have
 implemented the optimal Ate pairing over the BN254 curve we define <img src="/tex/d5c18a8ca1894fd3a7d25f242cbe8890.svg?invert_in_darkmode&sanitize=true" align=middle width=7.928106449999989pt height=14.15524440000002pt/> and <img src="/tex/89f2e0d2d24bcf44db73aab8fc03252c.svg?invert_in_darkmode&sanitize=true" align=middle width=7.87295519999999pt height=14.15524440000002pt/>
 as:
 
