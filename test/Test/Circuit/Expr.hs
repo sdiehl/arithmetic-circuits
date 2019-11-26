@@ -1,7 +1,7 @@
 module Test.Circuit.Expr where
 
 import           Circuit.Arithmetic
-import           Circuit.Expr                 hiding (fresh)
+import           Circuit.Expr
 import           Data.Curve.Weierstrass.BN254 (Fr)
 import qualified Data.Map                     as Map
 import           Fresh

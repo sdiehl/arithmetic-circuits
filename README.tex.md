@@ -106,72 +106,107 @@ negation operations.
 * $NOR(a,b) = 1 - (1 - a)*(1 - b)$
 * $XOR(a,b) = (a+b) - 2*a*b$
 
-## Circuit Builder Monad
+## DSL and Circuit Builder Monad
 
-```haskell
+Any arithmetic circuit can be built using a domain specific language to
+construct circuits that lives inside [Lang.hs](src/Circuit/Lang.hs).
+
+```haskell ignore
 type ExprM f a = State (ArithCircuit f, Int) a
 execCircuitBuilder :: ExprM f a -> ArithCircuit f
 ```
 
-```haskell
-fresh :: ExprM f Int
+```haskell ignore
+-- | Binary arithmetic operations
+add, sub, mul :: Expr Wire f f -> Expr Wire f f -> Expr Wire f f
 ```
 
-```haskell
--- | Fresh intermediate variables
-imm :: ExprM f Wire
+```haskell ignore
+-- | Binary logic operations
+-- Have to use underscore or similar to avoid shadowing @and@ and @or@
+-- from Prelude/Protolude.
+and_, or_, xor_ :: Expr Wire f Bool -> Expr Wire f Bool -> Expr Wire f Bool
 ```
 
-```haskell
--- | Fresh input variables
-freshInput :: ExprM f Wire
+```haskell ignore
+-- | Negate expression
+not_ :: Expr Wire f Bool -> Expr Wire f Bool
 ```
 
-```haskell
--- | Fresh output variables
-freshOutput :: ExprM f Wire
+```haskell ignore
+-- | Compare two expressions
+eq :: Expr Wire f f -> Expr Wire f f -> Expr Wire f Bool
 ```
 
-```haskell
--- | Add a Mul and its output to the ArithCircuit
-emit :: Gate Wire f -> ExprM f ()
+```haskell ignore
+-- | Convert wire to expression
+deref :: Wire -> Expr Wire f f
 ```
 
-```haskell
--- | Turn a wire into an affine circuit, or leave it be
-addVar :: Either Wire (AffineCircuit Wire f) -> AffineCircuit Wire f
+```haskell ignore
+-- | Return compilation of expression into an intermediate wire
+e :: Num f => Expr Wire f f -> ExprM f Wire
 ```
 
-```haskell
--- | Turn an affine circuit into a wire, or leave it be
-addWire :: Num f => Either Wire (AffineCircuit Wire f) -> ExprM f Wire
+```haskell ignore
+-- | Conditional statement on expressions
+cond :: Expr Wire f Bool -> Expr Wire f ty -> Expr Wire f ty -> Expr Wire f ty
+```
+
+```haskell ignore
+-- | Return compilation of expression into an output wire
+ret :: Num f => Expr Wire f f -> ExprM f Wire
+```
+
+The following program represents the image of the
+arithmetic circuit [above](#arithmetic-circuits-1).
+
+```haskell ignore
+program :: ArithCircuit Fr
+program = execCircuitBuilder $ do
+  i0 <- deref <$> input
+  i1 <- deref <$> input
+  i2 <- deref <$> input
+  let r0 = mul i0 i1
+      r1 = mul r0 (add i0 i2)
+  ret r1
+```
+
+The output of an arithmetic circuit can be converted to a DOT graph and display
+it as a graph.
+
+```haskell ignore
+dotOutput :: Text
+dotOutput = arithCircuitToDot $ execCircuitBuilder program
 ```
 
 ## Example
 
-The following example represents the image of the arithmetic circuit
-[above](#arithmetic-circuits-1). We'll use the library
-[pairing](https://www.github.com/adjoint-io/pairing) that provides a field of
-points of the BN254 curve and precomputes primitive roots of unity for binary
-powers that divide $r - 1$.
+We'll keep taking the program constructed with our DSL as example and will
+use the library [pairing](https://www.github.com/adjoint-io/pairing) that
+provides a field of points of the BN254 curve and precomputes primitive roots of
+unity for binary powers that divide $r - 1$.
 
 ```haskell
-{-# LANGUAGE DataKinds #-}
 import Protolude
 
 import qualified Data.Map as Map
 import Data.Pairing.BN254 (Fr, getRootOfUnity)
 
-import Circuit.Arithmetic (Gate(..), Wire(..), ArithCircuit(..), generateRoots)
-import Circuit.Affine (AffineCircuit(..))
+import Circuit.Arithmetic
+import Circuit.Expr
+import Circuit.Lang
 import Fresh (evalFresh, fresh)
-import QAP (QAP(..), QapSet(..), verifyAssignment, generateAssignment, arithCircuitToQAPFFT)
+import QAP
 
 program :: ArithCircuit Fr
-program = ArithCircuit
-  [ Mul (Var (InputWire 0)) (Var (InputWire 1)) (IntermediateWire 0)
-  , Mul (Var (IntermediateWire 0))(Add (Var (InputWire 0)) (Var (InputWire 2))) (OutputWire 0)
-  ]
+program = execCircuitBuilder $ do
+  i0 <- deref <$> input
+  i1 <- deref <$> input
+  i2 <- deref <$> input
+  let r0 = mul i0 i1
+      r1 = mul r0 (add i0 i2)
+  ret r1
 ```
 
 We need to generate the roots of the circuit to construct polynomials $T(x)$ and
@@ -187,15 +222,15 @@ roots = evalFresh (generateRoots (fmap (fromIntegral . (+ 1)) fresh) program)
 qap :: QAP Fr
 qap = arithCircuitToQAPFFT getRootOfUnity roots program
 
-input :: Map.Map Int Fr
-input = Map.fromList [(0, 7), (1, 5), (2, 4)]
+inputs :: Map.Map Int Fr
+inputs = Map.fromList [(0, 7), (1, 5), (2, 4)]
 ```
 
 A prover can now generate a valid assignment.
 
 ```haskell
 assignment :: QapSet Fr
-assignment = generateAssignment program input
+assignment = generateAssignment program inputs
 ```
 
 The verifier can check the divisibility property of $P(x)$ by $T(x)$ for the given circuit.

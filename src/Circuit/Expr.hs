@@ -186,7 +186,7 @@ type ExprM f a = State (ArithCircuit f, Int) a
 execCircuitBuilder :: ExprM f a -> ArithCircuit f
 execCircuitBuilder m = reverseCircuit $ fst $ execState m (ArithCircuit [], 0)
   where
-    reverseCircuit = (\(ArithCircuit cs) -> ArithCircuit $ reverse cs)
+    reverseCircuit = \(ArithCircuit cs) -> ArithCircuit $ reverse cs
 
 evalCircuitBuilder :: ExprM f a -> a
 evalCircuitBuilder = fst . runCircuitBuilder
@@ -194,7 +194,7 @@ evalCircuitBuilder = fst . runCircuitBuilder
 runCircuitBuilder :: ExprM f a -> (a, ArithCircuit f)
 runCircuitBuilder m = second (reverseCircuit . fst) $ runState m (ArithCircuit [], 0)
   where
-    reverseCircuit = (\(ArithCircuit cs) -> ArithCircuit $ reverse cs)
+    reverseCircuit = \(ArithCircuit cs) -> ArithCircuit $ reverse cs
 
 fresh :: ExprM f Int
 fresh = do
@@ -214,9 +214,16 @@ freshInput = InputWire <$> fresh
 freshOutput :: ExprM f Wire
 freshOutput = OutputWire <$> fresh
 
+-- | Multiply two wires or affine circuits to an intermediate variable
+mulToImm :: Either Wire (AffineCircuit Wire f) -> Either Wire (AffineCircuit Wire f) -> ExprM f Wire
+mulToImm l r = do
+  o <- imm
+  emit $ Mul (addVar l) (addVar r) o
+  pure o
+
 -- | Add a Mul and its output to the ArithCircuit
 emit :: Gate Wire f -> ExprM f ()
-emit c = modify $ first ((\(ArithCircuit cs) -> ArithCircuit (c : cs)))
+emit c = modify $ first (\(ArithCircuit cs) -> ArithCircuit (c : cs))
 
 -- | Rotate a list to the right
 rotateList :: Int -> [a] -> [a]
@@ -257,14 +264,12 @@ compile expr = case expr of
     case op of
       BAdd -> pure . Right $ Add e1Out e2Out
       BMul -> do
-        tmp1 <- imm
-        emit $ Mul e1Out e2Out tmp1
+        tmp1 <- mulToImm (Right e1Out) (Right e2Out)
         pure . Left $ tmp1
       -- SUB(x, y) = x + (-y)
-      BSub -> pure . Right $ (Add e1Out (ScalarMul (-1) e2Out))
+      BSub -> pure . Right $ Add e1Out (ScalarMul (-1) e2Out)
       BAnd -> do
-        tmp1 <- imm
-        emit $ Mul e1Out e2Out tmp1
+        tmp1 <- mulToImm (Right e1Out) (Right e2Out)
         pure . Left $ tmp1
       BOr -> do
         -- OR(input1, input2) = (input1 + input2) - (input1 * input2)
