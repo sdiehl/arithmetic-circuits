@@ -54,19 +54,12 @@ packages:
   original:
     hackage: bulletproofs-1.1.0
 - completed:
-    cabal-file:
-      size: 2365
-      sha256: c4c28e3733196d7d1ca8d4d6a9fc6ad2f527b339d1f43094115d6de8267cb842
-    name: galois-fft
-    version: 0.1.0
-    git: git@github.com:adjoint-io/galois-fft.git
+    hackage: galois-fft-0.1.0@sha256:6a1e1e255c236b521379435ba528bbb5bc2a159c3ebb7fb960090cd5cf950b20,2409
     pantry-tree:
-      size: 810
-      sha256: a4c71b379fda6771e6faf9439322256e18bcc5c3b4088676c5981ce895a32da2
-    commit: e98c9e4c4466d0260e60b073da4b41235d679f2f
+      size: 472
+      sha256: 8bc255dfd2276220edb94f6c3139b204e66fe85d612e24f80ff63a757da64cc4
   original:
-    git: git@github.com:adjoint-io/galois-fft.git
-    commit: e98c9e4c4466d0260e60b073da4b41235d679f2f
+    hackage: galois-fft-0.1.0
 snapshots:
 - completed:
     size: 523700
