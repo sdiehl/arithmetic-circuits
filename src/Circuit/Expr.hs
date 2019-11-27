@@ -12,6 +12,7 @@ module Circuit.Expr
     addWire,
     freshInput,
     freshOutput,
+    rotateList,
     runCircuitBuilder,
     evalCircuitBuilder,
     execCircuitBuilder,
