@@ -14,21 +14,29 @@ default-extensions:
   - GADTs
 
 dependencies:
+  # Base
   - base >= 4.10 && < 5
-  - bulletproofs >= 1.0
+  - protolude >= 0.2 && < 0.3
   - containers
+  - text
+  - aeson
+  - vector >= 0.12 && < 0.13
+
+  # Algebra
+  - poly >= 0.3.2
+  - semirings >= 0.5
+
+  # Cryptography
+  - bulletproofs >= 1.0
   - elliptic-curve >= 0.3 && < 0.4
-  - filepath
   - galois-fft >= 0.1
   - galois-field >= 1 && < 2
-  - MonadRandom
-  - poly >= 0.3.2
+
+  # Misc
+  - filepath
   - process-extras
-  - protolude >= 0.2 && < 0.3
-  - semirings >= 0.5
-  - text
-  - vector >= 0.12 && < 0.13
   - wl-pprint-text
+  - MonadRandom
 
 extra-source-files:
   - README.md

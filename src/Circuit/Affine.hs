@@ -1,24 +1,32 @@
-{-# LANGUAGE DeriveAnyClass, DeriveGeneric, LambdaCase #-}
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE StrictData #-}
 
 -- | Definition of arithmetic circuits that only contain addition,
 -- scalar multiplications and constant gates, along with its direct
 -- evaluation and translation into affine maps.
 module Circuit.Affine
-  ( AffineCircuit(..)
-  , collectInputsAffine
-  , mapVarsAffine
-  , evalAffineCircuit
-  , affineCircuitToAffineMap
-  , evalAffineMap
-  , dotProduct
-  ) where
+  ( AffineCircuit (..),
+    collectInputsAffine,
+    mapVarsAffine,
+    evalAffineCircuit,
+    affineCircuitToAffineMap,
+    evalAffineMap,
+    dotProduct,
+  )
+where
 
+import Data.Map (Map)
+import qualified Data.Map as Map
 import Protolude
-
-import           Data.Map                     (Map)
-import qualified Data.Map                     as Map
-import           Text.PrettyPrint.Leijen.Text (Doc, Pretty(..), parens, text,
-                                               (<+>))
+import Text.PrettyPrint.Leijen.Text
+  ( (<+>),
+    Doc,
+    Pretty (..),
+    parens,
+    text,
+  )
 
 -- | Arithmetic circuits without multiplication, i.e. circuits
 -- describe affine transformations.
@@ -27,7 +35,7 @@ data AffineCircuit i f
   | ScalarMul f (AffineCircuit i f)
   | ConstGate f
   | Var i
-  deriving (Show, Generic, NFData)
+  deriving (Read, Eq, Show, Generic, NFData)
 
 collectInputsAffine :: Ord i => AffineCircuit i f -> [i]
 collectInputsAffine = \case
@@ -40,19 +48,19 @@ instance (Pretty i, Show f) => Pretty (AffineCircuit i f) where
   pretty = prettyPrec 0
     where
       prettyPrec :: (Pretty i, Show f) => Int -> AffineCircuit i f -> Doc
-      prettyPrec p e
-        = case e of
-            Var v
-              -> pretty v
-            ConstGate f
-              -> text $ show f
-            ScalarMul f e1
-              -> text (show f) <+> text "*" <+> parensPrec 7 p (prettyPrec p e1)
-            Add e1 e2
-              -> parensPrec 6 p
-                   $ prettyPrec 6 e1
-                     <+> text "+"
-                     <+> prettyPrec 6 e2
+      prettyPrec p e =
+        case e of
+          Var v ->
+            pretty v
+          ConstGate f ->
+            text $ show f
+          ScalarMul f e1 ->
+            text (show f) <+> text "*" <+> parensPrec 7 p (prettyPrec p e1)
+          Add e1 e2 ->
+            parensPrec 6 p $
+              prettyPrec 6 e1
+                <+> text "+"
+                <+> prettyPrec 6 e2
 
 parensPrec :: Int -> Int -> Doc -> Doc
 parensPrec opPrec p = if p > opPrec then parens else identity
@@ -69,12 +77,15 @@ mapVarsAffine f = \case
 -- | Evaluate the arithmetic circuit without mul-gates on the given
 -- input. Variable map is assumed to have all the variables referred
 -- to in the circuit. Failed lookups are currently treated as 0.
-evalAffineCircuit
-  :: Num f
-  => (i -> vars -> Maybe f) -- ^ lookup function for variable mapping
-  -> vars -- ^ variables
-  -> AffineCircuit i f -- ^ circuit to evaluate
-  -> f
+evalAffineCircuit ::
+  Num f =>
+  -- | lookup function for variable mapping
+  (i -> vars -> Maybe f) ->
+  -- | variables
+  vars ->
+  -- | circuit to evaluate
+  AffineCircuit i f ->
+  f
 evalAffineCircuit lookupVar vars = \case
   ConstGate f -> f
   Var i -> fromMaybe 0 $ lookupVar i vars
@@ -83,13 +94,15 @@ evalAffineCircuit lookupVar vars = \case
 
 -- | Convert non-mul circuit to a vector representing the evaluation
 -- function. We use a @Map@ to represent the potentially sparse vector.
-affineCircuitToAffineMap
-  :: (Num f, Ord i)
-  => AffineCircuit i f -- ^ circuit to translate
-  -> (f, Map i f) -- ^ constant part and non-constant part
+affineCircuitToAffineMap ::
+  (Num f, Ord i) =>
+  -- | circuit to translate
+  AffineCircuit i f ->
+  -- | constant part and non-constant part
+  (f, Map i f)
 affineCircuitToAffineMap = \case
   Var i -> (0, Map.singleton i 1)
-  Add l r -> (constLeft + constRight , Map.unionWith (+) vecLeft vecRight)
+  Add l r -> (constLeft + constRight, Map.unionWith (+) vecLeft vecRight)
     where
       (constLeft, vecLeft) = affineCircuitToAffineMap l
       (constRight, vecRight) = affineCircuitToAffineMap r
@@ -102,16 +115,18 @@ affineCircuitToAffineMap = \case
 -- without mul-gates against inputs. If the input map does not have a
 -- variable that is referred to in the affine map, then it is treated
 -- as a 0.
-evalAffineMap
-  :: (Num f, Ord i)
-  => (f, Map i f) -- ^ program split into constant and non-constant part
-  -> Map i f -- ^ input variables
-  -> f
-evalAffineMap (constPart, linearPart) input
-  = constPart + dotProduct linearPart input
+evalAffineMap ::
+  (Num f, Ord i) =>
+  -- | program split into constant and non-constant part
+  (f, Map i f) ->
+  -- | input variables
+  Map i f ->
+  f
+evalAffineMap (constPart, linearPart) input =
+  constPart + dotProduct linearPart input
 
 dotProduct :: (Num f, Ord i) => Map i f -> Map i f -> f
-dotProduct inp comp
-  = sum
-  . Map.elems
-  $ Map.mapWithKey (\ix c -> c * Map.findWithDefault 0 ix inp) comp
+dotProduct inp comp =
+  sum
+    . Map.elems
+    $ Map.mapWithKey (\ix c -> c * Map.findWithDefault 0 ix inp) comp
