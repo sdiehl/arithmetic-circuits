@@ -15,8 +15,13 @@ wires connecting the gates.
 This form allows us to express arbitrarily complex programs with a set of
 *private inputs* and *public inputs* whose execution can be publicly verified
 without revealing the private inputs. This construction relies on recent
-advances in zero-knowledge proving systems such as Groth16, Pinnochio, and
-Bulletproofs.
+advances in zero-knowledge proving systems:
+
+* Groth16 ([G16](https://eprint.iacr.org/2016/260.pdf))
+* Groth-Maller ([GM17](https://eprint.iacr.org/2017/540.pdf))
+* Pinnochio ([PGHR13](https://eprint.iacr.org/2013/279.pdf))
+* Bulletproofs ([BBBPWM17](https://web.stanford.edu/~buenz/pubs/bulletproofs.pdf))
+* Sonic ([MBKM19](https://eprint.iacr.org/2019/099))
 
 This library presents a low-level interface for building zkSNARK proving systems
 from higher-level compilers. This system depends on the following cryptographic
