@@ -1,8 +1,5 @@
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE LambdaCase #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE StrictData #-}
+{-# LANGUAGE DeriveAnyClass, DeriveGeneric, LambdaCase, ScopedTypeVariables,
+             StrictData #-}
 
 -- | Definition of arithmetic circuits: one with a single
 -- multiplication gate with affine inputs and another variant with an
@@ -23,28 +20,19 @@ module Circuit.Arithmetic
   )
 where
 
-import Circuit.Affine
-  ( AffineCircuit (..),
-    collectInputsAffine,
-    evalAffineCircuit,
-    mapVarsAffine,
-  )
+import Circuit.Affine               (AffineCircuit(..), collectInputsAffine,
+                                     evalAffineCircuit, mapVarsAffine)
+import Data.Aeson                   (FromJSON, ToJSON)
 import Protolude
-import Text.PrettyPrint.Leijen.Text as PP
-  ( Pretty (..),
-    hsep,
-    list,
-    parens,
-    text,
-    vcat,
-  )
+import Text.PrettyPrint.Leijen.Text as PP (Pretty(..), hsep, list, parens, text,
+                                           vcat)
 
 -- | Wires are can be labeled in the ways given in this data type
 data Wire
   = InputWire Int
   | IntermediateWire Int
   | OutputWire Int
-  deriving (Show, Eq, Ord, Generic, NFData)
+  deriving (Show, Eq, Ord, Generic, NFData, ToJSON, FromJSON)
 
 instance Pretty Wire where
   pretty (InputWire v) = text "input_" <> pretty v
@@ -67,7 +55,7 @@ data Gate i f
       { splitInput :: i,
         splitOutputs :: [i]
       }
-  deriving (Show, Eq, Generic, NFData)
+  deriving (Show, Eq, Generic, NFData, FromJSON, ToJSON)
 
 collectInputsGate :: Ord i => Gate i f -> [i]
 collectInputsGate = \case
@@ -158,7 +146,7 @@ evalGate lookupVar updateVar vars gate =
 -- | A circuit is a list of multiplication gates along with their
 -- output wire labels (which can be intermediate or actual outputs).
 newtype ArithCircuit f = ArithCircuit [Gate Wire f]
-  deriving (Eq, Show, Generic, NFData)
+  deriving (Eq, Show, Generic, NFData, FromJSON, ToJSON)
 
 instance Show f => Pretty (ArithCircuit f) where
   pretty (ArithCircuit gs) = vcat . map pretty $ gs

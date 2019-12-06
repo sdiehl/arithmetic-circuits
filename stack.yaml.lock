@@ -19,10 +19,10 @@ packages:
   original:
     hackage: galois-field-1.0.0
 - completed:
-    hackage: poly-0.3.2.0@sha256:58492507d2bfb74c2d45c34a61438153f3a5cfb658154a7a504cf4397eb39d6d,2028
+    hackage: poly-0.3.2.0@sha256:0b123d205553f5dafe15d5dd8b961bd7a56bac908808ad4bbeff3e76413b59d9,2032
     pantry-tree:
       size: 1451
-      sha256: fbd14e37c925471ae2eebf81b44f007a629f092e2754c2b3fe1045df6d4c4844
+      sha256: d7cefe72a215ed2355d924d84adb219515044c4185f2ff116a8dd3603b57fd86
   original:
     hackage: poly-0.3.2.0
 - completed:
@@ -60,6 +60,13 @@ packages:
       sha256: 8bc255dfd2276220edb94f6c3139b204e66fe85d612e24f80ff63a757da64cc4
   original:
     hackage: galois-fft-0.1.0
+- completed:
+    hackage: vector-algorithms-0.8.0.3@sha256:477ef5ac82fdd28a39536ed0a767faec3425802827abee485be31db5bc6f5e90,3488
+    pantry-tree:
+      size: 1439
+      sha256: 9f04ef44c2459a122f2d5c093b4a9ebc47aaa00284a7bff9793fee7c6783f979
+  original:
+    hackage: vector-algorithms-0.8.0.3
 snapshots:
 - completed:
     size: 523700

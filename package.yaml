@@ -19,7 +19,6 @@ dependencies:
   - protolude >= 0.2 && < 0.3
   - containers
   - text
-  - aeson
   - vector >= 0.12 && < 0.13
 
   # Algebra
@@ -37,6 +36,9 @@ dependencies:
   - process-extras
   - wl-pprint-text
   - MonadRandom
+
+  # Serialization
+  - aeson
 
 extra-source-files:
   - README.md

@@ -1,7 +1,4 @@
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE LambdaCase #-}
-{-# LANGUAGE StrictData #-}
+{-# LANGUAGE DeriveAnyClass, DeriveGeneric, LambdaCase, StrictData #-}
 
 -- | Definition of arithmetic circuits that only contain addition,
 -- scalar multiplications and constant gates, along with its direct
@@ -17,16 +14,12 @@ module Circuit.Affine
   )
 where
 
-import Data.Map (Map)
-import qualified Data.Map as Map
-import Protolude
-import Text.PrettyPrint.Leijen.Text
-  ( (<+>),
-    Doc,
-    Pretty (..),
-    parens,
-    text,
-  )
+import           Data.Aeson                   (FromJSON, ToJSON)
+import           Data.Map                     (Map)
+import qualified Data.Map                     as Map
+import           Protolude
+import           Text.PrettyPrint.Leijen.Text (Doc, Pretty(..), parens, text,
+                                               (<+>))
 
 -- | Arithmetic circuits without multiplication, i.e. circuits
 -- describe affine transformations.
@@ -35,7 +28,7 @@ data AffineCircuit i f
   | ScalarMul f (AffineCircuit i f)
   | ConstGate f
   | Var i
-  deriving (Read, Eq, Show, Generic, NFData)
+  deriving (Read, Eq, Show, Generic, NFData, FromJSON, ToJSON)
 
 collectInputsAffine :: Ord i => AffineCircuit i f -> [i]
 collectInputsAffine = \case
