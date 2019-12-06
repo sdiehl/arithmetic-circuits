@@ -41,7 +41,7 @@ module QAP
 import Protolude hiding (quot, quotRem)
 
 import           Data.Aeson          (FromJSON, ToJSON)
-import Data.Aeson.Types
+import           Data.Aeson.Types
 import           Data.Foldable       (foldr1)
 import           Data.Map            (Map, fromList, mapKeys)
 import qualified Data.Map            as Map
