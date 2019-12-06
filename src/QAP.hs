@@ -40,7 +40,8 @@ module QAP
 
 import Protolude hiding (quot, quotRem)
 
-import           Data.Aeson          (FromJSON, GToJSON, ToJSON)
+import           Data.Aeson          (FromJSON, ToJSON)
+import Data.Aeson.Types
 import           Data.Foldable       (foldr1)
 import           Data.Map            (Map, fromList, mapKeys)
 import qualified Data.Map            as Map
@@ -78,9 +79,10 @@ data QAP f = QAP
   } deriving (Show, Eq, Generic, NFData, ToJSON, FromJSON)
 
 -- Orphan instances for VPoly
-instance Generic f => Generic (VPoly f)
-instance (ToJSON f, Generic f) => ToJSON (VPoly f)
-instance (FromJSON f, Generic f) => FromJSON (VPoly f)
+instance (ToJSON f, Generic f) => ToJSON (VPoly f) where
+  toJSON = toJSON . unPoly
+instance (FromJSON f, Generic f, Eq f, Num f) => FromJSON (VPoly f) where
+  parseJSON v = toPoly <$> parseJSON v
 
 -- | Generalised quadratic arithmetic program: instead of @Poly@, allow
 -- any functor.
