@@ -49,7 +49,7 @@ import qualified Data.Map.Merge.Lazy as Merge
 
 import           Data.Euclidean               (Euclidean(..))
 import           Data.Field                   (Field)
-import           Data.Field.Galois            (GaloisField, pow)
+import           Data.Field.Galois            (GaloisField, Prime, pow)
 import           Data.Poly
 import qualified Data.Vector                  as V
 import           Text.PrettyPrint.Leijen.Text (Pretty(..), enclose, indent,
@@ -83,6 +83,9 @@ instance (ToJSON f, Generic f) => ToJSON (VPoly f) where
   toJSON = toJSON . unPoly
 instance (FromJSON f, Generic f, Eq f, Num f) => FromJSON (VPoly f) where
   parseJSON v = toPoly <$> parseJSON v
+
+instance ToJSON (Prime n)
+instance FromJSON (Prime n)
 
 -- | Generalised quadratic arithmetic program: instead of @Poly@, allow
 -- any functor.

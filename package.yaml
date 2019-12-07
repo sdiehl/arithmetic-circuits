@@ -1,5 +1,5 @@
 name: arithmetic-circuits
-version: 0.1.0
+version: 0.2.0
 synopsis: Arithmetic circuits for zkSNARKs
 description: Arithmetic circuits for zkSNARKs
 maintainer: Adjoint Inc (info@adjoint.io)
