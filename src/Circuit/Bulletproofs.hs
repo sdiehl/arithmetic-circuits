@@ -28,6 +28,7 @@ import           Circuit.Arithmetic               (ArithCircuit(..), Gate(..),
                                                    Wire(..), collectInputsGate,
                                                    mapVarsGate, outputWires)
 import           Control.Monad.Random             (MonadRandom, getRandomR)
+import           Data.Aeson                       (FromJSON, ToJSON)
 import           Data.Curve.Weierstrass.SECP256K1 (Fr, PA)
 import qualified Data.Map                         as Map
 import           Protolude
@@ -36,7 +37,7 @@ import           Text.PrettyPrint.Leijen.Text     as PP (Pretty(..), enclose,
                                                          text, vcat, (<+>))
 
 newtype AltArithCircuit f = AltArithCircuit [Gate AltWire f]
-  deriving (Show, Generic, NFData)
+  deriving (Show, Generic, NFData, FromJSON, ToJSON)
 
 instance (Pretty f, Show f) => Pretty (AltArithCircuit f) where
   pretty (AltArithCircuit l) = pretty l
@@ -96,7 +97,7 @@ data AltWire
   | RightWire Int
   | OutWire Int
   | InWire Int
-  deriving (Show, Eq, Ord, Generic, NFData)
+  deriving (Show, Eq, Ord, Generic, NFData, FromJSON, ToJSON)
 
 instance Pretty AltWire where
   pretty (LeftWire v) = text "left_" <> pretty v
@@ -125,7 +126,7 @@ data LinearConstraint f
         -- | c
         lcConstant :: f
       }
-  deriving (Show)
+  deriving (Show, Generic, FromJSON, ToJSON)
 
 instance Pretty f => Pretty (LinearConstraint f) where
   pretty (LinearConstraint left right out lIn cnst) =
@@ -151,7 +152,7 @@ data MulConstraint i
         -- | pointer to aOi
         mcOut :: i
       }
-  deriving (Show)
+  deriving (Show, Generic, FromJSON, ToJSON)
 
 instance Pretty i => Pretty (MulConstraint i) where
   pretty (MulConstraint left right out) =
@@ -167,7 +168,7 @@ data GateConstraint i f
         gcLinearConstraintRight :: LinearConstraint f,
         gcMulConstraint :: MulConstraint i
       }
-  deriving (Show)
+  deriving (Show, Generic, FromJSON, ToJSON)
 
 instance (Pretty i, Pretty f) => Pretty (GateConstraint i f) where
   pretty (GateConstraint left right mul) =
@@ -191,7 +192,7 @@ data Assignment f
         -- | length is number of inputs
         assignmentIn :: Map Int f
       }
-  deriving (Show)
+  deriving (Show, Generic, FromJSON, ToJSON)
 
 assignmentToMap :: Assignment f -> Map AltWire f
 assignmentToMap Assignment {..} =

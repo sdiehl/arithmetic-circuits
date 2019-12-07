@@ -8,3 +8,4 @@ extra-deps:
   - arithmoi-0.8.0.0
   - bulletproofs-1.1.0
   - galois-fft-0.1.0
+  - vector-algorithms-0.8.0.3

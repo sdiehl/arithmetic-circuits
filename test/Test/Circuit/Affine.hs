@@ -1,9 +1,9 @@
 module Test.Circuit.Affine where
 
-import Circuit.Affine
-import qualified Data.Map as Map
-import Protolude
-import Test.Tasty.QuickCheck
+import           Circuit.Affine
+import qualified Data.Map              as Map
+import           Protolude
+import           Test.Tasty.QuickCheck
 
 -------------------------------------------------------------------------------
 -- Generators

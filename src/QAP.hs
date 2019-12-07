@@ -40,6 +40,8 @@ module QAP
 
 import Protolude hiding (quot, quotRem)
 
+import           Data.Aeson          (FromJSON, ToJSON)
+import           Data.Aeson.Types
 import           Data.Foldable       (foldr1)
 import           Data.Map            (Map, fromList, mapKeys)
 import qualified Data.Map            as Map
@@ -66,7 +68,7 @@ data QapSet f = QapSet
   , qapSetInput :: Map Int f
   , qapSetIntermediate :: Map Int f
   , qapSetOutput :: Map Int f
-  } deriving (Show, Eq, Functor, Foldable, Generic, NFData)
+  } deriving (Show, Eq, Functor, Foldable, Generic, NFData, ToJSON, FromJSON)
 
 -- | Quadratic arithmetic program
 data QAP f = QAP
@@ -74,7 +76,13 @@ data QAP f = QAP
   , qapInputsRight :: QapSet (VPoly f)
   , qapOutputs :: QapSet (VPoly f)
   , qapTarget :: VPoly f
-  } deriving (Show, Eq, Generic, NFData)
+  } deriving (Show, Eq, Generic, NFData, ToJSON, FromJSON)
+
+-- Orphan instances for VPoly
+instance (ToJSON f, Generic f) => ToJSON (VPoly f) where
+  toJSON = toJSON . unPoly
+instance (FromJSON f, Generic f, Eq f, Num f) => FromJSON (VPoly f) where
+  parseJSON v = toPoly <$> parseJSON v
 
 -- | Generalised quadratic arithmetic program: instead of @Poly@, allow
 -- any functor.
@@ -83,7 +91,7 @@ data GenQAP p f = GenQAP
   , genQapInputsRight :: QapSet (p f)
   , genQapOutputs :: QapSet (p f)
   , genQapTarget :: p f
-  } deriving (Show, Eq, Generic, NFData)
+  } deriving (Show, Eq, Generic, NFData, ToJSON, FromJSON)
 
 -- Note that we could get "sequence" from the Traversable instance of
 -- lists if we had an Applicative/Monad instance of QapSet. There do
