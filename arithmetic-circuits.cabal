@@ -1,0 +1,163 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: bc49ee59136d8c9fd2da1594182416b2aa0797a293d51eb4b479c34288e95859
+
+name:           arithmetic-circuits
+version:        0.2.0
+synopsis:       Arithmetic circuits for zkSNARKs
+description:    Arithmetic circuits for zkSNARKs
+category:       Cryptography
+homepage:       https://github.com/adjoint-io/arithmetic-circuits#readme
+bug-reports:    https://github.com/adjoint-io/arithmetic-circuits/issues
+maintainer:     Adjoint Inc (info@adjoint.io)
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/adjoint-io/arithmetic-circuits
+
+library
+  exposed-modules:
+      Circuit
+      Circuit.Affine
+      Circuit.Arithmetic
+      Circuit.Bulletproofs
+      Circuit.Dot
+      Circuit.Expr
+      Circuit.Lang
+      Fresh
+      QAP
+  other-modules:
+      Paths_arithmetic_circuits
+  hs-source-dirs:
+      src
+  default-extensions: LambdaCase OverloadedStrings NoImplicitPrelude GADTs
+  ghc-options: -freverse-errors -O2 -Wall
+  build-depends:
+      MonadRandom
+    , aeson
+    , base >=4.10 && <5
+    , bulletproofs >=1.0
+    , containers
+    , elliptic-curve >=0.3 && <0.4
+    , filepath
+    , galois-fft >=0.1
+    , galois-field >=1 && <2
+    , poly >=0.3.2
+    , process-extras
+    , protolude >=0.2 && <0.3
+    , semirings >=0.5
+    , text
+    , vector >=0.12 && <0.13
+    , wl-pprint-text
+  default-language: Haskell2010
+
+test-suite circuit-tests
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  other-modules:
+      Test.Circuit.Affine
+      Test.Circuit.Arithmetic
+      Test.Circuit.Expr
+      Test.QAP
+      Paths_arithmetic_circuits
+  hs-source-dirs:
+      test
+  default-extensions: LambdaCase OverloadedStrings NoImplicitPrelude GADTs
+  ghc-options: -freverse-errors -O2 -Wall -main-is Main
+  build-depends:
+      MonadRandom
+    , QuickCheck
+    , aeson
+    , arithmetic-circuits
+    , base >=4.10 && <5
+    , bulletproofs >=1.0
+    , containers
+    , elliptic-curve >=0.3 && <0.4
+    , filepath
+    , galois-fft >=0.1
+    , galois-field >=1 && <2
+    , pairing
+    , poly >=0.3.2
+    , process-extras
+    , protolude >=0.2 && <0.3
+    , quickcheck-instances
+    , semirings >=0.5
+    , tasty
+    , tasty-discover
+    , tasty-hunit
+    , tasty-quickcheck
+    , text
+    , vector >=0.12 && <0.13
+    , wl-pprint-text
+  default-language: Haskell2010
+
+test-suite readme-test
+  type: exitcode-stdio-1.0
+  main-is: README.lhs
+  other-modules:
+      Paths_arithmetic_circuits
+  default-extensions: LambdaCase OverloadedStrings NoImplicitPrelude GADTs
+  ghc-options: -freverse-errors -O2 -Wall -pgmL markdown-unlit
+  build-depends:
+      MonadRandom
+    , aeson
+    , arithmetic-circuits
+    , base
+    , bulletproofs >=1.0
+    , containers
+    , elliptic-curve >=0.3 && <0.4
+    , filepath
+    , galois-fft >=0.1
+    , galois-field >=1 && <2
+    , markdown-unlit
+    , pairing
+    , poly >=0.3.2
+    , process-extras
+    , protolude
+    , semirings >=0.5
+    , text
+    , vector >=0.12 && <0.13
+    , wl-pprint-text
+  default-language: Haskell2010
+
+benchmark circuit-benchmarks
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  other-modules:
+      Circuit
+      Paths_arithmetic_circuits
+  hs-source-dirs:
+      bench
+  default-extensions: LambdaCase OverloadedStrings NoImplicitPrelude GADTs
+  ghc-options: -freverse-errors -O2 -Wall -main-is Main
+  build-depends:
+      MonadRandom
+    , aeson
+    , arithmetic-circuits
+    , base >=4.10 && <5
+    , bulletproofs >=1.0
+    , containers
+    , criterion
+    , elliptic-curve >=0.3 && <0.4
+    , filepath
+    , galois-fft >=0.1
+    , galois-field >=1 && <2
+    , pairing
+    , poly >=0.3.2
+    , process-extras
+    , protolude >=0.2 && <0.3
+    , semirings >=0.5
+    , text
+    , vector >=0.12 && <0.13
+    , wl-pprint-text
+  default-language: Haskell2010
