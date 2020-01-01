@@ -1,11 +1,11 @@
-name: arithmetic-circuits
-version: 0.2.0
-synopsis: Arithmetic circuits for zkSNARKs
-description: Arithmetic circuits for zkSNARKs
-maintainer: Adjoint Inc (info@adjoint.io)
-license: MIT
-github: adjoint-io/arithmetic-circuits
-category: Cryptography
+name        : arithmetic-circuits
+version     : 0.2.0
+synopsis    : Arithmetic circuits for zkSNARKs
+description : Arithmetic circuits for zkSNARKs
+maintainer  : Adjoint Inc (info@adjoint.io)
+license     : MIT
+github      : adjoint-io/arithmetic-circuits
+category    : Cryptography
 
 default-extensions:
   - LambdaCase
@@ -15,30 +15,30 @@ default-extensions:
 
 dependencies:
   # Base
-  - base >= 4.10 && < 5
-  - protolude >= 0.2 && < 0.3
-  - containers
-  - text
-  - vector >= 0.12 && < 0.13
+  - base            >= 4.10  && < 5
+  - protolude       >= 0.2   && < 0.3
+  - containers      >= 0.6.0 && < 0.7
+  - text            >= 1.2.3 && < 1.3
+  - vector          >= 0.12  && < 0.13
 
   # Algebra
-  - poly >= 0.3.2
-  - semirings >= 0.5
+  - poly            >= 0.3.2 && < 0.4
+  - semirings       >= 0.5.0 && < 0.6
 
   # Cryptography
-  - bulletproofs >= 1.0
-  - elliptic-curve >= 0.3 && < 0.4
-  - galois-fft >= 0.1
-  - galois-field >= 1 && < 2
+  - bulletproofs    >= 1.1.0 && < 1.2
+  - elliptic-curve  >= 0.3   && < 0.4
+  - galois-fft      >= 0.1.0 && < 0.2
+  - galois-field    >= 1.0.0 && < 2.0.0
 
   # Misc
-  - filepath
-  - process-extras
-  - wl-pprint-text
-  - MonadRandom
+  - filepath        >= 1.4.2 && < 1.5
+  - process-extras  >= 0.7.4 && < 0.8
+  - wl-pprint-text  >= 1.2.0 && < 1.3
+  - MonadRandom     >= 0.5.1 && < 0.6
 
   # Serialization
-  - aeson
+  - aeson           >= 1.4.5 && < 1.5
 
 extra-source-files:
   - README.md

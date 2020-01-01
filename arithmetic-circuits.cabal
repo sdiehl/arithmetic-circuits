@@ -1,163 +1,185 @@
-cabal-version: 1.12
+cabal-version:      1.12
 
 -- This file has been generated from package.yaml by hpack version 0.31.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: bc49ee59136d8c9fd2da1594182416b2aa0797a293d51eb4b479c34288e95859
+-- hash: 0eff91b39697f8602f68d9700cdf8c2af1adcce40a2b6d817c8265438e008543
 
-name:           arithmetic-circuits
-version:        0.2.0
-synopsis:       Arithmetic circuits for zkSNARKs
-description:    Arithmetic circuits for zkSNARKs
-category:       Cryptography
-homepage:       https://github.com/adjoint-io/arithmetic-circuits#readme
-bug-reports:    https://github.com/adjoint-io/arithmetic-circuits/issues
-maintainer:     Adjoint Inc (info@adjoint.io)
-license:        MIT
-license-file:   LICENSE
-build-type:     Simple
+name:               arithmetic-circuits
+version:            0.2.0
+synopsis:           Arithmetic circuits for zkSNARKs
+description:        Arithmetic circuits for zkSNARKs
+category:           Cryptography
+homepage:           https://github.com/adjoint-io/arithmetic-circuits#readme
+bug-reports:        https://github.com/adjoint-io/arithmetic-circuits/issues
+maintainer:         Adjoint Inc (info@adjoint.io)
+license:            MIT
+license-file:       LICENSE
+build-type:         Simple
 extra-source-files:
-    README.md
-    ChangeLog.md
+  README.md
+  ChangeLog.md
 
 source-repository head
-  type: git
+  type:     git
   location: https://github.com/adjoint-io/arithmetic-circuits
 
 library
   exposed-modules:
-      Circuit
-      Circuit.Affine
-      Circuit.Arithmetic
-      Circuit.Bulletproofs
-      Circuit.Dot
-      Circuit.Expr
-      Circuit.Lang
-      Fresh
-      QAP
-  other-modules:
-      Paths_arithmetic_circuits
-  hs-source-dirs:
-      src
-  default-extensions: LambdaCase OverloadedStrings NoImplicitPrelude GADTs
-  ghc-options: -freverse-errors -O2 -Wall
+    Circuit
+    Circuit.Affine
+    Circuit.Arithmetic
+    Circuit.Bulletproofs
+    Circuit.Dot
+    Circuit.Expr
+    Circuit.Lang
+    Fresh
+    QAP
+
+  other-modules:      Paths_arithmetic_circuits
+  hs-source-dirs:     src
+  default-extensions:
+    NoImplicitPrelude
+    GADTs
+    LambdaCase
+    OverloadedStrings
+
+  ghc-options:        -freverse-errors -O2 -Wall
   build-depends:
-      MonadRandom
-    , aeson
-    , base >=4.10 && <5
-    , bulletproofs >=1.0
-    , containers
-    , elliptic-curve >=0.3 && <0.4
-    , filepath
-    , galois-fft >=0.1
-    , galois-field >=1 && <2
-    , poly >=0.3.2
-    , process-extras
-    , protolude >=0.2 && <0.3
-    , semirings >=0.5
-    , text
-    , vector >=0.12 && <0.13
-    , wl-pprint-text
-  default-language: Haskell2010
+      aeson           >=1.4.5 && <1.5
+    , base            >=4.10  && <5
+    , bulletproofs    >=1.1.0 && <1.2
+    , containers      >=0.6.0 && <0.7
+    , elliptic-curve  >=0.3   && <0.4
+    , filepath        >=1.4.2 && <1.5
+    , galois-fft      >=0.1.0 && <0.2
+    , galois-field    >=1.0.0 && <2.0.0
+    , MonadRandom     >=0.5.1 && <0.6
+    , poly            >=0.3.2 && <0.4
+    , process-extras  >=0.7.4 && <0.8
+    , protolude       >=0.2   && <0.3
+    , semirings       >=0.5.0 && <0.6
+    , text            >=1.2.3 && <1.3
+    , vector          >=0.12  && <0.13
+    , wl-pprint-text  >=1.2.0 && <1.3
+
+  default-language:   Haskell2010
 
 test-suite circuit-tests
-  type: exitcode-stdio-1.0
-  main-is: Main.hs
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
   other-modules:
-      Test.Circuit.Affine
-      Test.Circuit.Arithmetic
-      Test.Circuit.Expr
-      Test.QAP
-      Paths_arithmetic_circuits
-  hs-source-dirs:
-      test
-  default-extensions: LambdaCase OverloadedStrings NoImplicitPrelude GADTs
-  ghc-options: -freverse-errors -O2 -Wall -main-is Main
+    Paths_arithmetic_circuits
+    Test.Circuit.Affine
+    Test.Circuit.Arithmetic
+    Test.Circuit.Expr
+    Test.QAP
+
+  hs-source-dirs:     test
+  default-extensions:
+    NoImplicitPrelude
+    GADTs
+    LambdaCase
+    OverloadedStrings
+
+  ghc-options:        -freverse-errors -O2 -Wall -main-is Main
   build-depends:
-      MonadRandom
-    , QuickCheck
-    , aeson
+      aeson                 >=1.4.5 && <1.5
     , arithmetic-circuits
-    , base >=4.10 && <5
-    , bulletproofs >=1.0
-    , containers
-    , elliptic-curve >=0.3 && <0.4
-    , filepath
-    , galois-fft >=0.1
-    , galois-field >=1 && <2
+    , base                  >=4.10  && <5
+    , bulletproofs          >=1.1.0 && <1.2
+    , containers            >=0.6.0 && <0.7
+    , elliptic-curve        >=0.3   && <0.4
+    , filepath              >=1.4.2 && <1.5
+    , galois-fft            >=0.1.0 && <0.2
+    , galois-field          >=1.0.0 && <2.0.0
+    , MonadRandom           >=0.5.1 && <0.6
     , pairing
-    , poly >=0.3.2
-    , process-extras
-    , protolude >=0.2 && <0.3
+    , poly                  >=0.3.2 && <0.4
+    , process-extras        >=0.7.4 && <0.8
+    , protolude             >=0.2   && <0.3
+    , QuickCheck
     , quickcheck-instances
-    , semirings >=0.5
+    , semirings             >=0.5.0 && <0.6
     , tasty
     , tasty-discover
     , tasty-hunit
     , tasty-quickcheck
-    , text
-    , vector >=0.12 && <0.13
-    , wl-pprint-text
-  default-language: Haskell2010
+    , text                  >=1.2.3 && <1.3
+    , vector                >=0.12  && <0.13
+    , wl-pprint-text        >=1.2.0 && <1.3
+
+  default-language:   Haskell2010
 
 test-suite readme-test
-  type: exitcode-stdio-1.0
-  main-is: README.lhs
-  other-modules:
-      Paths_arithmetic_circuits
-  default-extensions: LambdaCase OverloadedStrings NoImplicitPrelude GADTs
-  ghc-options: -freverse-errors -O2 -Wall -pgmL markdown-unlit
+  type:               exitcode-stdio-1.0
+  main-is:            README.lhs
+  other-modules:      Paths_arithmetic_circuits
+  default-extensions:
+    NoImplicitPrelude
+    GADTs
+    LambdaCase
+    OverloadedStrings
+
+  ghc-options:        -freverse-errors -O2 -Wall -pgmL markdown-unlit
   build-depends:
-      MonadRandom
-    , aeson
+      aeson                >=1.4.5 && <1.5
     , arithmetic-circuits
     , base
-    , bulletproofs >=1.0
-    , containers
-    , elliptic-curve >=0.3 && <0.4
-    , filepath
-    , galois-fft >=0.1
-    , galois-field >=1 && <2
+    , bulletproofs         >=1.1.0 && <1.2
+    , containers           >=0.6.0 && <0.7
+    , elliptic-curve       >=0.3   && <0.4
+    , filepath             >=1.4.2 && <1.5
+    , galois-fft           >=0.1.0 && <0.2
+    , galois-field         >=1.0.0 && <2.0.0
     , markdown-unlit
+    , MonadRandom          >=0.5.1 && <0.6
     , pairing
-    , poly >=0.3.2
-    , process-extras
+    , poly                 >=0.3.2 && <0.4
+    , process-extras       >=0.7.4 && <0.8
     , protolude
-    , semirings >=0.5
-    , text
-    , vector >=0.12 && <0.13
-    , wl-pprint-text
-  default-language: Haskell2010
+    , semirings            >=0.5.0 && <0.6
+    , text                 >=1.2.3 && <1.3
+    , vector               >=0.12  && <0.13
+    , wl-pprint-text       >=1.2.0 && <1.3
+
+  default-language:   Haskell2010
 
 benchmark circuit-benchmarks
-  type: exitcode-stdio-1.0
-  main-is: Main.hs
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
   other-modules:
-      Circuit
-      Paths_arithmetic_circuits
-  hs-source-dirs:
-      bench
-  default-extensions: LambdaCase OverloadedStrings NoImplicitPrelude GADTs
-  ghc-options: -freverse-errors -O2 -Wall -main-is Main
+    Circuit
+    Paths_arithmetic_circuits
+
+  hs-source-dirs:     bench
+  default-extensions:
+    NoImplicitPrelude
+    GADTs
+    LambdaCase
+    OverloadedStrings
+
+  ghc-options:        -freverse-errors -O2 -Wall -main-is Main
   build-depends:
-      MonadRandom
-    , aeson
+      aeson                >=1.4.5 && <1.5
     , arithmetic-circuits
-    , base >=4.10 && <5
-    , bulletproofs >=1.0
-    , containers
+    , base                 >=4.10  && <5
+    , bulletproofs         >=1.1.0 && <1.2
+    , containers           >=0.6.0 && <0.7
     , criterion
-    , elliptic-curve >=0.3 && <0.4
-    , filepath
-    , galois-fft >=0.1
-    , galois-field >=1 && <2
+    , elliptic-curve       >=0.3   && <0.4
+    , filepath             >=1.4.2 && <1.5
+    , galois-fft           >=0.1.0 && <0.2
+    , galois-field         >=1.0.0 && <2.0.0
+    , MonadRandom          >=0.5.1 && <0.6
     , pairing
-    , poly >=0.3.2
-    , process-extras
-    , protolude >=0.2 && <0.3
-    , semirings >=0.5
-    , text
-    , vector >=0.12 && <0.13
-    , wl-pprint-text
-  default-language: Haskell2010
+    , poly                 >=0.3.2 && <0.4
+    , process-extras       >=0.7.4 && <0.8
+    , protolude            >=0.2   && <0.3
+    , semirings            >=0.5.0 && <0.6
+    , text                 >=1.2.3 && <1.3
+    , vector               >=0.12  && <0.13
+    , wl-pprint-text       >=1.2.0 && <1.3
+
+  default-language:   Haskell2010
