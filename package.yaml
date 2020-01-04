@@ -68,23 +68,23 @@ tests:
     main: Main
     dependencies:
       - arithmetic-circuits
-      - pairing
-      - QuickCheck
-      - quickcheck-instances
-      - tasty
-      - tasty-discover
-      - tasty-hunit
-      - tasty-quickcheck
+      - pairing              >= 1.0  && <1.1
+      - QuickCheck           >= 2.13 && <2.14
+      - quickcheck-instances >= 0.3  && <0.4
+      - tasty                >= 1.2  && <1.3
+      - tasty-discover       >= 4.2  && <4.3
+      - tasty-hunit          >= 0.10 && <0.11
+      - tasty-quickcheck     >= 0.10 && <0.11
     source-dirs:
       - test
 
   readme-test:
     dependencies:
       - arithmetic-circuits
-      - base
-      - pairing
-      - protolude
-      - markdown-unlit
+      - base           >= 4.10 && < 5
+      - pairing        >= 1.0  && <1.1
+      - protolude      >= 0.2  && < 0.3
+      - markdown-unlit >= 0.5  && <0.6
     main: README.lhs
     ghc-options: -pgmL markdown-unlit
 
@@ -92,8 +92,8 @@ benchmarks:
   circuit-benchmarks:
     main: Main
     dependencies:
-      - criterion
-      - pairing
+      - criterion >= 1.5 && <1.6
+      - pairing   >= 1.0 && <1.1
       - arithmetic-circuits
     source-dirs:
       - bench

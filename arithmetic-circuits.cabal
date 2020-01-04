@@ -4,7 +4,7 @@ cabal-version:      1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0eff91b39697f8602f68d9700cdf8c2af1adcce40a2b6d817c8265438e008543
+-- hash: ec3fad364f137b7c061dae293c3e44981e3a5702f02aef47010f2afea65f2472
 
 name:               arithmetic-circuits
 version:            0.2.0
@@ -95,17 +95,17 @@ test-suite circuit-tests
     , galois-fft            >=0.1.0 && <0.2
     , galois-field          >=1.0.0 && <2.0.0
     , MonadRandom           >=0.5.1 && <0.6
-    , pairing
+    , pairing               >=1.0   && <1.1
     , poly                  >=0.3.2 && <0.4
     , process-extras        >=0.7.4 && <0.8
     , protolude             >=0.2   && <0.3
-    , QuickCheck
-    , quickcheck-instances
+    , QuickCheck            >=2.13  && <2.14
+    , quickcheck-instances  >=0.3   && <0.4
     , semirings             >=0.5.0 && <0.6
-    , tasty
-    , tasty-discover
-    , tasty-hunit
-    , tasty-quickcheck
+    , tasty                 >=1.2   && <1.3
+    , tasty-discover        >=4.2   && <4.3
+    , tasty-hunit           >=0.10  && <0.11
+    , tasty-quickcheck      >=0.10  && <0.11
     , text                  >=1.2.3 && <1.3
     , vector                >=0.12  && <0.13
     , wl-pprint-text        >=1.2.0 && <1.3
@@ -126,19 +126,19 @@ test-suite readme-test
   build-depends:
       aeson                >=1.4.5 && <1.5
     , arithmetic-circuits
-    , base
+    , base                 >=4.10  && <5
     , bulletproofs         >=1.1.0 && <1.2
     , containers           >=0.6.0 && <0.7
     , elliptic-curve       >=0.3   && <0.4
     , filepath             >=1.4.2 && <1.5
     , galois-fft           >=0.1.0 && <0.2
     , galois-field         >=1.0.0 && <2.0.0
-    , markdown-unlit
+    , markdown-unlit       >=0.5   && <0.6
     , MonadRandom          >=0.5.1 && <0.6
-    , pairing
+    , pairing              >=1.0   && <1.1
     , poly                 >=0.3.2 && <0.4
     , process-extras       >=0.7.4 && <0.8
-    , protolude
+    , protolude            >=0.2   && <0.3
     , semirings            >=0.5.0 && <0.6
     , text                 >=1.2.3 && <1.3
     , vector               >=0.12  && <0.13
@@ -167,13 +167,13 @@ benchmark circuit-benchmarks
     , base                 >=4.10  && <5
     , bulletproofs         >=1.1.0 && <1.2
     , containers           >=0.6.0 && <0.7
-    , criterion
+    , criterion            >=1.5   && <1.6
     , elliptic-curve       >=0.3   && <0.4
     , filepath             >=1.4.2 && <1.5
     , galois-fft           >=0.1.0 && <0.2
     , galois-field         >=1.0.0 && <2.0.0
     , MonadRandom          >=0.5.1 && <0.6
-    , pairing
+    , pairing              >=1.0   && <1.1
     , poly                 >=0.3.2 && <0.4
     , process-extras       >=0.7.4 && <0.8
     , protolude            >=0.2   && <0.3
