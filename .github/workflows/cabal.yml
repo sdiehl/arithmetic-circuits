@@ -23,6 +23,24 @@ jobs:
         ghc-version: ${{ matrix.ghc }}
         cabal-version: ${{ matrix.cabal }}
 
+    - uses: actions/cache@v1
+      name: Cache ~/.cabal/packages
+      with:
+        path: ~/.cabal/packages
+        key: cabal-packages-${{ matrix.ghc }}
+
+    - uses: actions/cache@v1
+      name: Cache ~/.cabal/store
+      with:
+        path: ~/.cabal/store
+        key: cabal-store-${{ matrix.ghc }}
+
+    - uses: actions/cache@v1
+      name: Cache dist-newstyle
+      with:
+        path: dist-newstyle
+        key: dist-newstyle-${{ matrix.ghc }}
+
     - name: Install dependencies
       run: |
         cabal update

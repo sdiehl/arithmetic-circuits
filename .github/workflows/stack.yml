@@ -15,7 +15,7 @@ jobs:
         plan:
         - { build: stack, resolver: "lts-13"  }   # redundant because lts-14 checks ghc-8.6 already
         - { build: stack, resolver: "lts-14"  }   # ghc-8.6.5
-        - { build: stack, resolver: "nightly" }
+        #- { build: stack, resolver: "nightly" }
         include: []
         exclude:
         - os: macOS-latest
