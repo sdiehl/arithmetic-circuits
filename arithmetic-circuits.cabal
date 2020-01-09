@@ -4,7 +4,7 @@ cabal-version:      1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 56192d3954b0ef68fa6e98c51b50ba058fabf499561770d0f8b7e60c85cd130c
+-- hash: 82f266d078e820121bdc6466a5f276447fbe15dfb72a701071b2a43f1c5e2e63
 
 name:               arithmetic-circuits
 version:            0.2.0
@@ -99,7 +99,7 @@ test-suite circuit-tests
     , poly                  >=0.3.2 && <0.4
     , process-extras        >=0.7.4 && <0.8
     , protolude             >=0.2   && <0.3
-    , QuickCheck            >=2.13  && <2.14
+    , QuickCheck            >=2.12  && <2.14
     , quickcheck-instances  >=0.3   && <0.4
     , semirings             >=0.5.0 && <0.6
     , tasty                 >=1.2   && <1.3
