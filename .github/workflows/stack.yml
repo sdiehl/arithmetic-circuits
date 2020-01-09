@@ -34,12 +34,17 @@ jobs:
     - name: Setup stack
       uses: mstksg/setup-stack@v1
 
-    - name: Setup cabal-install
-      uses: actions/setup-haskell@v1
+    - uses: actions/cache@v1
+      name: Cache .stack-work
       with:
-        ghc-version: ${{ matrix.plan.ghc }}
-        cabal-version: ${{ matrix.plan.cabal-install }}
-      if: matrix.plan.build == 'cabal'
+        path: .stack-work
+        key: stack-work
+
+    - uses: actions/cache@v1
+      name: Cache ~/.stack
+      with:
+        path: ~/.stack
+        key: stack
 
     - name: Install dependencies
       run: |
