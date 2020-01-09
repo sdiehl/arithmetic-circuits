@@ -47,4 +47,4 @@ jobs:
         cabal new-install hlint --installdir=dist-newstyle
     - name: Run hlint
       run: |
-        dist-newstyle/hlint -g
+        dist-newstyle/hlint -g -e=hs

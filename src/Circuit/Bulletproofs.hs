@@ -1,5 +1,5 @@
-{-# LANGUAGE DeriveAnyClass, DeriveGeneric, LambdaCase, RecordWildCards,
-             ScopedTypeVariables, TypeApplications, ViewPatterns #-}
+{-# LANGUAGE DeriveAnyClass, DeriveGeneric, LambdaCase,
+  RecordWildCards, ScopedTypeVariables, ViewPatterns #-}
 
 -- | Translate arithmetic circuits into a Hadamard product equation
 -- and linear constraints.

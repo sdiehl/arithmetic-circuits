@@ -1,5 +1,4 @@
-{-# LANGUAGE DeriveAnyClass, DeriveGeneric, PackageImports, RecordWildCards,
-             TupleSections #-}
+{-# LANGUAGE DeriveAnyClass, DeriveGeneric, TupleSections #-}
 
 module Test.Circuit.Arithmetic where
 

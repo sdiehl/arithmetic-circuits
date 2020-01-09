@@ -1,4 +1,3 @@
-{-# LANGUAGE PackageImports #-}
 module Test.QAP where
 
 import Protolude
