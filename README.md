@@ -257,6 +257,8 @@ main = do
     else putText "Invalid assignment"
 ```
 
+See [Example.hs](./Example.hs).
+
 ## Disclaimer
 
 This is experimental code meant for research-grade projects only. Please do not
