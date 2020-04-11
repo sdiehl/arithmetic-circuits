@@ -23,6 +23,7 @@ where
 import Circuit.Affine               (AffineCircuit(..), collectInputsAffine,
                                      evalAffineCircuit, mapVarsAffine)
 import Data.Aeson                   (FromJSON, ToJSON)
+import Data.Field.Galois            (PrimeField, fromP)
 import Protolude
 import Text.PrettyPrint.Leijen.Text as PP (Pretty(..), hsep, list, parens, text,
                                            vcat)
@@ -103,7 +104,7 @@ mapVarsGate f = \case
 
 -- | Evaluate a single gate
 evalGate ::
-  (Bits f, Fractional f) =>
+  (PrimeField f) =>
   -- | lookup a value at a wire
   (i -> vars -> Maybe f) ->
   -- | update a value at a wire
@@ -139,7 +140,7 @@ evalGate lookupVar updateVar vars gate =
               bool2val False = 0
               setWire (ix, oldEnv) currentOut =
                 ( ix + 1,
-                  updateVar currentOut (bool2val $ testBit inp ix) oldEnv
+                  updateVar currentOut (bool2val $ testBit (fromP inp) ix) oldEnv
                 )
            in snd . foldl setWire (0, vars) $ os
 
@@ -219,7 +220,7 @@ generateRoots takeRoot (ArithCircuit (gate : gates)) =
 -- values and inputs).
 evalArithCircuit ::
   forall f vars.
-  (Bits f, Fractional f) =>
+  (PrimeField f) =>
   -- | lookup a value at a wire
   (Wire -> vars -> Maybe f) ->
   -- | update a value at a wire

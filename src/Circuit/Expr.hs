@@ -24,6 +24,7 @@ where
 
 import Circuit.Affine
 import Circuit.Arithmetic
+import Data.Field.Galois (PrimeField, fromP)
 import Protolude
 import Text.PrettyPrint.Leijen.Text hiding ((<$>))
 
@@ -138,7 +139,7 @@ truncRotate nbits nrots x =
 
 -- | Evaluate arithmetic expressions directly, given an environment
 evalExpr ::
-  (Bits f, Num f) =>
+  (PrimeField f) =>
   -- | variable lookup
   (i -> vars -> Maybe f) ->
   -- | expression to evaluate
@@ -161,7 +162,7 @@ evalExpr lookupVar expr vars = case expr of
   EUnOp UNot e1 ->
     not $ evalExpr lookupVar e1 vars
   EUnOp (URot truncBits rotBits) e1 ->
-    truncRotate truncBits rotBits $ evalExpr lookupVar e1 vars
+    fromInteger $ truncRotate truncBits rotBits $ fromP $ evalExpr lookupVar e1 vars
   EBinOp op e1 e2 ->
     (evalExpr lookupVar e1 vars) `apply` (evalExpr lookupVar e2 vars)
     where
