@@ -49,7 +49,7 @@ import qualified Data.Map.Merge.Lazy as Merge
 
 import           Data.Euclidean               (Euclidean(..))
 import           Data.Field                   (Field)
-import           Data.Field.Galois            (GaloisField, Prime, pow)
+import           Data.Field.Galois            (GaloisField, PrimeField, Prime, fromP, pow)
 import           Data.Poly
 import qualified Data.Vector                  as V
 import           Text.PrettyPrint.Leijen.Text (Pretty(..), enclose, indent,
@@ -84,8 +84,10 @@ instance (ToJSON f, Generic f) => ToJSON (VPoly f) where
 instance (FromJSON f, Generic f, Eq f, Num f) => FromJSON (VPoly f) where
   parseJSON v = toPoly <$> parseJSON v
 
-instance ToJSON (Prime n)
-instance FromJSON (Prime n)
+instance KnownNat n => ToJSON (Prime n) where
+  toJSON = toJSON . fromP
+instance KnownNat n => FromJSON (Prime n) where
+  parseJSON = fmap fromInteger . parseJSON
 
 -- | Generalised quadratic arithmetic program: instead of @Poly@, allow
 -- any functor.
@@ -575,7 +577,7 @@ addMissingZeroes allRoots (GenQAP inpLeft inpRight outp t)
 
 -- | Generate a valid assignment for a single gate.
 generateAssignmentGate
-  :: (Bits f, Fractional f)
+  :: (PrimeField f)
   => Gate Wire f -- ^ program
   -> Map Int f -- ^ inputs
   -> QapSet f
@@ -593,7 +595,7 @@ initialQapSet
 initialQapSet inputs = QapSet 1 inputs Map.empty Map.empty
 
 generateAssignment
-  :: forall f . (Bits f, Fractional f)
+  :: forall f . (PrimeField f)
   => ArithCircuit f -- ^ program
   -> Map Int f -- ^ inputs
   -> QapSet f
