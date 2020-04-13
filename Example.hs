@@ -32,7 +32,7 @@ assignment :: QapSet Fr
 assignment = generateAssignment program inputs
 
 main :: IO ()
-main = do
+main =
   if verifyAssignment qap assignment
     then putText "Valid assignment"
     else putText "Invalid assignment"
