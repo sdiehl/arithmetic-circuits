@@ -23,13 +23,13 @@ dependencies:
 
   # Algebra
   - poly            >= 0.3.2 && < 0.5
-  - semirings       >= 0.5.0 && < 0.6
+  - semirings       >= 0.5.2 && < 0.6
 
   # Cryptography
   - bulletproofs    >= 1.1.0 && < 1.2
   - elliptic-curve  >= 0.3   && < 0.4
   - galois-fft      >= 0.1.0 && < 0.2
-  - galois-field    >= 1.0.0 && < 2.0.0
+  - galois-field    >= 1.0.2 && < 2.0.0
 
   # Misc
   - filepath        >= 1.4.2 && < 1.5

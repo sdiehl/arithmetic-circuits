@@ -12,26 +12,26 @@ packages:
   original:
     hackage: elliptic-curve-0.3.0
 - completed:
-    hackage: galois-field-1.0.0@sha256:d44007898c07a6c913a38f78e7246c7785ae3052ca55ad713783345d06a28419,3470
-    pantry-tree:
-      size: 1444
-      sha256: 1b265e1c3062a06a48a535c1681a954c26bee5959a42e97fc0e4fd8b5a90849f
-  original:
-    hackage: galois-field-1.0.0
-- completed:
-    hackage: poly-0.3.2.0@sha256:0b123d205553f5dafe15d5dd8b961bd7a56bac908808ad4bbeff3e76413b59d9,2032
+    hackage: galois-field-1.0.2@sha256:ecfdd72259a3db7dc89ddeaa5c5dd7d7bcc305c0450a89c757d93fe2ddb71c77,4685
     pantry-tree:
       size: 1451
-      sha256: d7cefe72a215ed2355d924d84adb219515044c4185f2ff116a8dd3603b57fd86
+      sha256: 4b3eecd9ca434ee37785a1f3c4312c76760d9b79de05048fa17b0878c30f503c
   original:
-    hackage: poly-0.3.2.0
+    hackage: galois-field-1.0.2
 - completed:
-    hackage: semirings-0.5.1@sha256:597e4070dcb75c3e347566114e140ba343843f80f3e16a456bb2e9e9d1d09430,3743
+    hackage: poly-0.4.0.0@sha256:75c243113712745dab5d2f4a52643705e146473770af212f9e0ce3d87a83f2ed,2123
+    pantry-tree:
+      size: 1896
+      sha256: 06f435980848905d2bcf23b85782863b1608f7a78dbdaea42e33a2e865adf476
+  original:
+    hackage: poly-0.4.0.0
+- completed:
+    hackage: semirings-0.5.3@sha256:4b0d243f88bb07c0673978a37b6b9fd16da44f15e8d552fb08795d9a88a3dc76,3791
     pantry-tree:
       size: 610
-      sha256: cc4e01176f1a56c97dc923416a6939dcdc004584cccf8a2b1c67bd156b31179a
+      sha256: 0bc3f63a3b92be1c6be2e36c7db8df62e61b2860eba7f083b84e2b16dbaa2d69
   original:
-    hackage: semirings-0.5.1
+    hackage: semirings-0.5.3
 - completed:
     hackage: pairing-1.0.0@sha256:709d2e1a98b18327d2fba4efaa6069ef783333c95055ad73416e9401d02000ac,3507
     pantry-tree:
@@ -67,6 +67,20 @@ packages:
       sha256: 9f04ef44c2459a122f2d5c093b4a9ebc47aaa00284a7bff9793fee7c6783f979
   original:
     hackage: vector-algorithms-0.8.0.3
+- completed:
+    hackage: bitvec-1.0.3.0@sha256:f69ed0e463045cb497a7cf1bc808a2e84ea0ce286cf9507983bb6ed8b4bd3993,3977
+    pantry-tree:
+      size: 2372
+      sha256: e3cf4b28e01c3eb9b0cf46a8a2e7eef1ced133d5ad626aaba099cf468007dd90
+  original:
+    hackage: bitvec-1.0.3.0
+- completed:
+    hackage: mod-0.1.1.0@sha256:57f230d5664b1c311d1044c259ef880875e4b3bcbfc7c57eab3bf03fce87f445,1838
+    pantry-tree:
+      size: 464
+      sha256: ca61450dd1d84e6beefba010a7032dfb5a8bc2e8344a369430992c56ec083ad7
+  original:
+    hackage: mod-0.1.1.0
 snapshots:
 - completed:
     size: 523700

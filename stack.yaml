@@ -1,11 +1,13 @@
 resolver: lts-14.7
 extra-deps:
   - elliptic-curve-0.3.0
-  - galois-field-1.0.0
-  - poly-0.3.2.0
-  - semirings-0.5.1
+  - galois-field-1.0.2
+  - poly-0.4.0.0
+  - semirings-0.5.3
   - pairing-1.0.0
   - arithmoi-0.8.0.0
   - bulletproofs-1.1.0
   - galois-fft-0.1.0
   - vector-algorithms-0.8.0.3
+  - bitvec-1.0.3.0
+  - mod-0.1.1.0
