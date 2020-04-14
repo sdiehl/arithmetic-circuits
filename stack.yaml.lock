@@ -81,6 +81,13 @@ packages:
       sha256: ca61450dd1d84e6beefba010a7032dfb5a8bc2e8344a369430992c56ec083ad7
   original:
     hackage: mod-0.1.1.0
+- completed:
+    hackage: QuickCheck-2.13.2@sha256:ad4e5adbd1c9dc0221a44307b992cb040c515f31095182e47aa7e974bc461df1,6952
+    pantry-tree:
+      size: 2202
+      sha256: f79eee2f6a00b2c649f993a7b358827702373cbc931ced55ebdfb59625540403
+  original:
+    hackage: QuickCheck-2.13.2
 snapshots:
 - completed:
     size: 523700
